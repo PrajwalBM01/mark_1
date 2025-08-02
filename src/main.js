@@ -1,5 +1,7 @@
 import * as THREE from 'three'
-import { GLTFLoader, OrbitControls, RectAreaLightHelper } from 'three/examples/jsm/Addons.js'
+import { DRACOLoader, GLTFLoader, OrbitControls, RectAreaLightHelper } from 'three/examples/jsm/Addons.js'
+
+
 // Import Theatre.js core first!
 import '@theatre/core'
 import studio from '@theatre/studio'
@@ -34,8 +36,8 @@ fog_contorler.onValuesChange(value=>{
 
 //camera
 const camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight)
-camera.position.set(-4.5,13,22.2)
-camera.rotation.set(-0.4566054718924939,-0.23194744016787075,-0.11244388299728232)
+camera.position.set(-3.2,14.5,21.5)
+camera.rotation.set(-0.5297532381195129,-0.17316669017920686,-0.10055756544337954)
 camera.near = 5
 scene.add(camera)
 
@@ -135,10 +137,13 @@ floor_controls.onValuesChange(value=>{
 //iron man model
 const loader = new GLTFLoader();
 loader.load(
-  'ironman.glb', // Path to the .glb file
+  'newfinal.glb', 
   function (gltf) {
     const ironman = gltf.scene
     scene.add(ironman); 
+    ironman.traverse(child=>{
+      console.log(child)
+    })
     const ironMan_controler = sheet.object("ironman",{
       position:{
         x:types.number(0,{range:[-10,10],nudgeMultiplier:0.01}),
@@ -172,7 +177,6 @@ scene_loader.load('background.glb',(gltf)=>{
     dithering: true
 });
   background.traverse(child=>{
-    console.log(child)
     if (child.isMesh) {
       child.material = darkMaterial;
       child.castShadow = true;
@@ -215,7 +219,7 @@ const keyLight = new THREE.RectAreaLight(0xffffff)
 keyLight.castShadow = true
 scene.add(keyLight)
 const keyLight_helper = new RectAreaLightHelper(keyLight)
-keyLight.add(keyLight_helper)
+// keyLight.add(keyLight_helper)
 const keylight_controls = sheet.object("keyLight",{
   size:{
     width:types.number(5,{range:[5,20],nudgeMultiplier:1}),
@@ -248,6 +252,46 @@ keylight_controls.onValuesChange(value=>{
   keyLight.lookAt(xL,yL,zL)
   keyLight.position.set(x,y,z)
   keyLight.rotation.set(value.rotation.xR*Math.PI/2,value.rotation.yR*Math.PI/2,value.rotation.zR*Math.PI/2)
+})
+
+//keylight2
+const keyLight2 = new THREE.RectAreaLight(0xffffff)
+keyLight2.castShadow = true
+scene.add(keyLight2)
+const keyLight_helper2 = new RectAreaLightHelper(keyLight2)
+// keyLight2.add(keyLight_helper2)
+const keylight_controls2 = sheet.object("keyLight2",{
+  size:{
+    width:types.number(5,{range:[5,20],nudgeMultiplier:1}),
+    height:types.number(5,{range:[5,20],nudgeMultiplier:1})
+  },
+  intensity:types.number(0,{range:[0,100],nudgeMultiplier:0.01}),
+  position:{
+    x:types.number(0,{range:[0,80],nudgeMultiplier:1}),
+    y:types.number(0,{range:[0,80],nudgeMultiplier:1}),
+    z:types.number(0,{range:[0,80],nudgeMultiplier:1}),
+  },
+  lookup:{
+    xL:types.number(0,{range:[0,50],nudgeMultiplier:1}),
+    yL:types.number(0,{range:[0,50],nudgeMultiplier:1}),
+    zL:types.number(0,{range:[0,50],nudgeMultiplier:1}),
+  },
+  rotation:{
+    xR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
+    yR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
+    zR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01})
+  }
+})
+
+keylight_controls2.onValuesChange(value=>{
+  keyLight2.width = value.size.width;
+  keyLight2.height = value.size.height;
+  keyLight2.intensity = value.intensity;
+  const {x,y,z} = value.position;
+  const {xL,yL,zL} = value.lookup;
+  keyLight2.lookAt(xL,yL,zL)
+  keyLight2.position.set(x,y,z)
+  keyLight2.rotation.set(value.rotation.xR*Math.PI/2,value.rotation.yR*Math.PI/2,value.rotation.zR*Math.PI/2)
 })
 
 //directional light
@@ -305,36 +349,36 @@ scene.add( directionalLight2 );
 const directionalLight2Helper = new THREE.DirectionalLightHelper(directionalLight2, 5);
 // scene.add(directionalLight2Helper);
 
-// Directional light 2 controller
-const directionalLight2_controls = sheet.object("directionalLight2",{
-  // color: types.rgba({r: 255, g: 255, b: 255, a: 1}),
-  intensity: types.number(1.5, {range: [0, 10], nudgeMultiplier: 0.01}),
-  position: {
-    x: types.number(1, {range: [-50, 50], nudgeMultiplier: 0.1}),
-    y: types.number(16, {range: [-50, 50], nudgeMultiplier: 0.1}),
-    z: types.number(14, {range: [-50, 50], nudgeMultiplier: 0.1})
-  },
-  target: {
-    x: types.number(5, {range: [-50, 50], nudgeMultiplier: 0.1}),
-    y: types.number(-12, {range: [-50, 50], nudgeMultiplier: 0.1}),
-    z: types.number(-5, {range: [-50, 50], nudgeMultiplier: 0.1})
-  },
-  shadow: {
-    mapSize: types.number(2048, {range: [512, 4096], nudgeMultiplier: 512}),
-    enabled: types.boolean(true)
-  }
-});
+// // Directional light 2 controller
+// const directionalLight2_controls = sheet.object("directionalLight2",{
+//   // color: types.rgba({r: 255, g: 255, b: 255, a: 1}),
+//   intensity: types.number(1.5, {range: [0, 10], nudgeMultiplier: 0.01}),
+//   position: {
+//     x: types.number(1, {range: [-50, 50], nudgeMultiplier: 0.1}),
+//     y: types.number(16, {range: [-50, 50], nudgeMultiplier: 0.1}),
+//     z: types.number(14, {range: [-50, 50], nudgeMultiplier: 0.1})
+//   },
+//   target: {
+//     x: types.number(5, {range: [-50, 50], nudgeMultiplier: 0.1}),
+//     y: types.number(-12, {range: [-50, 50], nudgeMultiplier: 0.1}),
+//     z: types.number(-5, {range: [-50, 50], nudgeMultiplier: 0.1})
+//   },
+//   shadow: {
+//     mapSize: types.number(2048, {range: [512, 4096], nudgeMultiplier: 512}),
+//     enabled: types.boolean(true)
+//   }
+// });
 
-directionalLight2_controls.onValuesChange(value => {
-  // directionalLight2.color.setHex(value.color);
-  directionalLight2.intensity = value.intensity;
-  directionalLight2.position.set(value.position.x, value.position.y, value.position.z);
-  directionalLight2.target.position.set(value.target.x, value.target.y, value.target.z);
-  directionalLight2.castShadow = value.shadow.enabled;
-  directionalLight2.shadow.mapSize.width = value.shadow.mapSize;
-  directionalLight2.shadow.mapSize.height = value.shadow.mapSize;
-  directionalLight2Helper.update();
-});
+// directionalLight2_controls.onValuesChange(value => {
+//   // directionalLight2.color.setHex(value.color);
+//   directionalLight2.intensity = value.intensity;
+//   directionalLight2.position.set(value.position.x, value.position.y, value.position.z);
+//   directionalLight2.target.position.set(value.target.x, value.target.y, value.target.z);
+//   directionalLight2.castShadow = value.shadow.enabled;
+//   directionalLight2.shadow.mapSize.width = value.shadow.mapSize;
+//   directionalLight2.shadow.mapSize.height = value.shadow.mapSize;
+//   directionalLight2Helper.update();
+// });
 
 let minIntensity = 0.1;
 let maxIntensity = 3;
