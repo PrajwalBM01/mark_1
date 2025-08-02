@@ -259,13 +259,82 @@ directionalLight.shadow.mapSize.width = 2048;
 directionalLight.shadow.mapSize.height = 2048;
 scene.add( directionalLight );
 
+// Directional light helper
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// scene.add(directionalLightHelper);
 
-//directional light
+// Directional light controller
+const directionalLight_controls = sheet.object("directionalLight",{
+  // color: types.rgba({r: 255, g: 95, b: 31, a: 1}),
+  intensity: types.number(0.5, {range: [0, 10], nudgeMultiplier: 0.01}),
+  position: {
+    x: types.number(-18, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    y: types.number(26, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    z: types.number(20, {range: [-50, 50], nudgeMultiplier: 0.1})
+  },
+  target: {
+    x: types.number(21, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    y: types.number(16, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    z: types.number(-50, {range: [-50, 50], nudgeMultiplier: 0.1})
+  },
+  shadow: {
+    mapSize: types.number(2048, {range: [512, 4096], nudgeMultiplier: 512}),
+    enabled: types.boolean(true)
+  }
+});
+
+directionalLight_controls.onValuesChange(value => {
+  // directionalLight.color.setHex(value.color);
+  directionalLight.intensity = value.intensity;
+  directionalLight.position.set(value.position.x, value.position.y, value.position.z);
+  directionalLight.target.position.set(value.target.x, value.target.y, value.target.z);
+  directionalLight.castShadow = value.shadow.enabled;
+  directionalLight.shadow.mapSize.width = value.shadow.mapSize;
+  directionalLight.shadow.mapSize.height = value.shadow.mapSize;
+  directionalLightHelper.update();
+});
+
+//directional light 2
 const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 1.5 );
 directionalLight2.position.set(1,16,14)
 directionalLight2.target.position.set(5,-12,-5)
 directionalLight2.castShadow = true;
 scene.add( directionalLight2 );
+
+// Directional light 2 helper
+const directionalLight2Helper = new THREE.DirectionalLightHelper(directionalLight2, 5);
+// scene.add(directionalLight2Helper);
+
+// Directional light 2 controller
+const directionalLight2_controls = sheet.object("directionalLight2",{
+  // color: types.rgba({r: 255, g: 255, b: 255, a: 1}),
+  intensity: types.number(1.5, {range: [0, 10], nudgeMultiplier: 0.01}),
+  position: {
+    x: types.number(1, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    y: types.number(16, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    z: types.number(14, {range: [-50, 50], nudgeMultiplier: 0.1})
+  },
+  target: {
+    x: types.number(5, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    y: types.number(-12, {range: [-50, 50], nudgeMultiplier: 0.1}),
+    z: types.number(-5, {range: [-50, 50], nudgeMultiplier: 0.1})
+  },
+  shadow: {
+    mapSize: types.number(2048, {range: [512, 4096], nudgeMultiplier: 512}),
+    enabled: types.boolean(true)
+  }
+});
+
+directionalLight2_controls.onValuesChange(value => {
+  // directionalLight2.color.setHex(value.color);
+  directionalLight2.intensity = value.intensity;
+  directionalLight2.position.set(value.position.x, value.position.y, value.position.z);
+  directionalLight2.target.position.set(value.target.x, value.target.y, value.target.z);
+  directionalLight2.castShadow = value.shadow.enabled;
+  directionalLight2.shadow.mapSize.width = value.shadow.mapSize;
+  directionalLight2.shadow.mapSize.height = value.shadow.mapSize;
+  directionalLight2Helper.update();
+});
 
 let minIntensity = 0.1;
 let maxIntensity = 3;
