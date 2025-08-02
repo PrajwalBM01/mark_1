@@ -7,11 +7,12 @@
     <title>Vite App</title>
     <link href="/src/style.css" rel="stylesheet">
   </head>
-  <body>
-    <div id="app"></div>
+  <body class="m-0 p-0">
+    <div id="app" class="h-screen w-full relative">
+      <button id="capture" class="bg-red-600 z-10 absolute hover:cursor-pointer">clcik here</button>
+      <canvas id="engine" class="fixed top-0 left-0 outline-none"></canvas>
+    </div>
+    
     <script type="module" src="/src/main.js"></script>
-    <h1 class="text-3xl font-bold underline bg-amber-400">
-      Hello world!
-    </h1>
   </body>
 </html>
