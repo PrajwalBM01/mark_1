@@ -12,7 +12,7 @@ const sheet = project.sheet("scene")
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { state } from './state';
+import { moved_position, moved_rotation, state } from './state';
 import { setupAnimation } from './animation';
 
 // 1. REGISTER THE PLUGIN - This is mandatory.
@@ -22,13 +22,13 @@ gsap.registerPlugin(ScrollTrigger);
 //loading manager
 const loadingManager = new THREE.LoadingManager(
   ()=>{
-    console.log("on load")
+    // console.log("on load")
   },
   ()=>{
-    console.log("progress")
+    // console.log("progress")
   },
   ()=>{
-    console.log('error')
+    // console.log('error')
   }
 );
 
@@ -57,7 +57,7 @@ main_cam.position.set(-4,12.5,20)
 main_cam.rotation.set(-0.35885993397896615,-0.20114612999000137,-0.07480269320403296)
 scene.add(main_cam)
 const camerHelper = new THREE.CameraHelper(main_cam);
-// scene.add(camerHelper)
+scene.add(camerHelper)
 
 //scenondary_cam
 const scene_cam = new THREE.PerspectiveCamera(
@@ -146,31 +146,43 @@ renderer.render(scene,active_cam)
 //ironman
 const loader = new GLTFLoader(loadingManager);
 loader.load(
-  'newfinal.glb', 
+  'organised.glb', 
   function (gltf) {
     const ironman = gltf.scene
     scene.add(ironman); 
     state.ironman_model = ironman
-    ironman.children.map(child=>{
+    let x=0
+    ironman.traverse(child=>{
       state.ironman_parts[child.name] = child
-      // child.position.set(
-      //   Math.floor(Math.random() * (10 - (-10)+1))+ (-10),
-      //   Math.floor(Math.random() * (10 - (-10)+1))+ (-10),
-      //   Math.floor(Math.random() * (30 - 20 + 1))+ (20)
-      //   )
+      state.position[child.name] = child.position.clone()
+      state.roatatio[child.name] = child.rotation.clone()
+      const position = moved_position[x]
+      const rotatation = moved_rotation[x]
+      child.position.set(position.x,position.y,position.z)
+      child.rotation.set(rotatation._x,rotatation._y,rotatation._z)
+      x +=1
+      
     })
-    ironman.position.z=6
+    // console.log(state.position)
+    // ironman.position.set(0,1.5,3)
+    // ironman.rotation.set(-Math.PI/2,0,0)
     // console.log(ironman)
     // console.log(ironman.children)
     // const ironMan_controler = sheet.object("ironman",{
     //   position:{
-    //     x:types.number(0,{range:[-10,10],nudgeMultiplier:0.01}),
-    //     y:types.number(0,{range:[-10,10],nudgeMultiplier:0.01}),
-    //     z:types.number(0,{range:[-50,10],nudgeMultiplier:0.01}),
-    //   }
+    //     x:types.number(0,{range:[-10,50],nudgeMultiplier:0.01}),
+    //     y:types.number(0,{range:[-10,50],nudgeMultiplier:0.01}),
+    //     z:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
+    //   },
+    //   rotation:{
+    //         xR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
+    //         yR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
+    //         zR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01})
+    //       }
     // })
     // ironMan_controler.onValuesChange(value=>{
     //   ironman.position.set(value.position.x,value.position.y,value.position.z)
+    //   ironman.rotation.set(value.rotation.xR*Math.PI/2,value.rotation.yR*Math.PI/2,value.rotation.zR*Math.PI/2)
     // })
     setupAnimation()
   },
@@ -186,7 +198,7 @@ loader.load(
 const scene_loader = new GLTFLoader(loadingManager);
 scene_loader.load('background.glb',(gltf)=>{
   const background = gltf.scene;
-  background.position.set(0,0,0)
+  background.position.set(0,0,20)
   background.scale.set(10,10,10)
   const darkMaterial = new THREE.MeshStandardMaterial({
     color: 0x1a1a1a,
@@ -199,7 +211,6 @@ scene_loader.load('background.glb',(gltf)=>{
       child.castShadow = true;
   }
   })
-  console.log(background)
   scene.add(background)
 })
 
