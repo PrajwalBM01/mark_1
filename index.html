@@ -7,12 +7,20 @@
     <title>Vite App</title>
     <link href="/src/style.css" rel="stylesheet">
   </head>
-  <body class="m-0 p-0">
-    <div id="app" class="h-screen w-full relative">
-      <button id="capture" class="bg-red-600 z-10 absolute hover:cursor-pointer">clcik here</button>
-      <canvas id="engine" class="fixed top-0 left-0 outline-none"></canvas>
-    </div>
-    
+  <body class="m-0 p-0 relative">
+
+    <!--loader-->
+
+
+    <!-- The canvas for our 3D scene. It will be fixed in the background. -->
+    <canvas id="engine" class="fixed top-0 left-0 outline-none -z-1"></canvas>
+
+    <!--main dom-->
+    <!-- <div class="h-full w-full border absolute border-red-600">
+      <section id="section1" class="border border-white h-screen text-white"> sectrion1</section>
+      <section class="border border-white h-screen text-white"> sectrion2</section>
+
+    </div> -->
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
