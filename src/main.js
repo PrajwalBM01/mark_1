@@ -12,7 +12,7 @@ const sheet = project.sheet("scene")
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { moved_position, moved_rotation, state } from './state';
+import { state } from './state';
 import { setupAnimation } from './animation';
 
 // 1. REGISTER THE PLUGIN - This is mandatory.
@@ -43,7 +43,7 @@ const scene = new THREE.Scene();
 // scene.background = new THREE.Color(0x1a1a1a)
 
 /* fog */
-// scene.fog = new THREE.Fog('black',10,15)
+scene.fog = new THREE.Fog('black',10,15)
 
 
 
@@ -53,11 +53,11 @@ const main_cam = new THREE.PerspectiveCamera(
   75,
   window.innerWidth/window.innerHeight
 )
-main_cam.position.set(-4,12.5,20)
+main_cam.position.set(-4,12.5,14)
 main_cam.rotation.set(-0.35885993397896615,-0.20114612999000137,-0.07480269320403296)
 scene.add(main_cam)
 const camerHelper = new THREE.CameraHelper(main_cam);
-scene.add(camerHelper)
+// scene.add(camerHelper)
 
 //scenondary_cam
 const scene_cam = new THREE.PerspectiveCamera(
@@ -146,22 +146,30 @@ renderer.render(scene,active_cam)
 //ironman
 const loader = new GLTFLoader(loadingManager);
 loader.load(
-  'organised.glb', 
+  '/finals/letsbegin.glb', 
   function (gltf) {
     const ironman = gltf.scene
     scene.add(ironman); 
     state.ironman_model = ironman
-    let x=0
     ironman.traverse(child=>{
-      state.ironman_parts[child.name] = child
-      state.position[child.name] = child.position.clone()
-      state.roatatio[child.name] = child.rotation.clone()
-      const position = moved_position[x]
-      const rotatation = moved_rotation[x]
-      child.position.set(position.x,position.y,position.z)
-      child.rotation.set(rotatation._x,rotatation._y,rotatation._z)
-      x +=1
-      
+      child.castShadow = true
+      if(child.isGroup) {
+        return null
+      } else {
+        const partInfo = {
+          mesh:child,
+          originalPosition: child.position.clone(),
+          uuid :child.uuid
+        }
+        state.ironman_parts.push(partInfo)
+        if(child.isMesh){
+          child.position.set(
+            Math.floor(Math.random() * (10 - (-10)+1))+ (-10),
+            Math.floor(Math.random() * (10 - 0 + 1))+ (0),
+            Math.floor(Math.random() * (30 - 15 + 1))+ (15)
+          )
+        }
+      }
     })
     // console.log(state.position)
     // ironman.position.set(0,1.5,3)
@@ -184,6 +192,7 @@ loader.load(
     //   ironman.position.set(value.position.x,value.position.y,value.position.z)
     //   ironman.rotation.set(value.rotation.xR*Math.PI/2,value.rotation.yR*Math.PI/2,value.rotation.zR*Math.PI/2)
     // })
+    // console.log(state.ironman_parts)
     setupAnimation()
   },
   function (xhr) {
@@ -198,7 +207,7 @@ loader.load(
 const scene_loader = new GLTFLoader(loadingManager);
 scene_loader.load('background.glb',(gltf)=>{
   const background = gltf.scene;
-  background.position.set(0,0,20)
+  background.position.set(0,0,10)
   background.scale.set(10,10,10)
   const darkMaterial = new THREE.MeshStandardMaterial({
     color: 0x1a1a1a,
