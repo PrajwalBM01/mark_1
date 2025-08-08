@@ -5,5 +5,6 @@ export const state = {
     ironman_parts : [],
     scene :null,
     position:{},
-    roatatio:{}
+    roatatio:{},
+    mute: true
 }

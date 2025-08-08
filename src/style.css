@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import "tailwindcss";
 
 
+#loading-bar {
+    transform: scaleX(0);
+}
+
+@theme {
+    --font-orbiton : "Orbitron";
+    --font-stark : "stark";
+    --color-blueprintGray : #a9a9a9;
+}
+
+@font-face {
+    font-family: 'stark'; 
+    src: url('/fonts/BankGothic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }

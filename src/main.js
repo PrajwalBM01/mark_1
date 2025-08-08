@@ -5,6 +5,7 @@ import '@theatre/core'
 import studio from '@theatre/studio'
 import { getProject, types } from '@theatre/core'
 studio.initialize()
+studio.ui.hide()
 //creating a project for the animation
 const project = getProject('MARK 1')
 const sheet = project.sheet("scene")
@@ -20,17 +21,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 //loading manager
-const loadingManager = new THREE.LoadingManager(
-  ()=>{
-    // console.log("on load")
-  },
-  ()=>{
-    // console.log("progress")
-  },
-  ()=>{
-    // console.log('error')
-  }
-);
+const loadingManager = new THREE.LoadingManager();
+// loadingManager.onProgress = ( url, itemsLoaded, itemsTotal ) => {
+//   const percent = (itemsLoaded/itemsTotal)
+//   document.getElementById('loading-bar').style.transform = `scaleX(${percent})`
+// };
+
+// loadingManager.onLoad = () => {
+//   setTimeout(() => {
+//     document.getElementById('screen').classList.remove('hidden')
+//     const loader = document.getElementById('loader')
+//     loader.style.opacity = '0'
+//     loader.style.transition = 'opacity 1s ease-out'
+//     setTimeout(() => {
+//       loader.classList.replace('flex','hidden')
+//       if (state.ironman_model) {
+//         setupAnimation()
+//       }
+//     }, 1000)
+//   }, 2000);
+// }
 
 /* canvas */
 const canvas = document.getElementById('engine');
@@ -43,7 +53,7 @@ const scene = new THREE.Scene();
 // scene.background = new THREE.Color(0x1a1a1a)
 
 /* fog */
-scene.fog = new THREE.Fog('black',10,15)
+// scene.fog = new THREE.Fog('black',10,15)2
 
 
 
@@ -171,38 +181,9 @@ loader.load(
         }
       }
     })
-    // console.log(state.position)
-    // ironman.position.set(0,1.5,3)
-    // ironman.rotation.set(-Math.PI/2,0,0)
-    // console.log(ironman)
-    // console.log(ironman.children)
-    // const ironMan_controler = sheet.object("ironman",{
-    //   position:{
-    //     x:types.number(0,{range:[-10,50],nudgeMultiplier:0.01}),
-    //     y:types.number(0,{range:[-10,50],nudgeMultiplier:0.01}),
-    //     z:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
-    //   },
-    //   rotation:{
-    //         xR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
-    //         yR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01}),
-    //         zR:types.number(0,{range:[-50,50],nudgeMultiplier:0.01})
-    //       }
-    // })
-    // ironMan_controler.onValuesChange(value=>{
-    //   ironman.position.set(value.position.x,value.position.y,value.position.z)
-    //   ironman.rotation.set(value.rotation.xR*Math.PI/2,value.rotation.yR*Math.PI/2,value.rotation.zR*Math.PI/2)
-    // })
-    // console.log(state.ironman_parts)
     setupAnimation()
   },
-  function (xhr) {
-    // Called while loading is progressing
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-  },
-  function (error) {
-    // Called if loading has errors
-    console.error('An error happened', error);
-  })
+)
 
 const scene_loader = new GLTFLoader(loadingManager);
 scene_loader.load('background.glb',(gltf)=>{
@@ -242,3 +223,33 @@ const animate = () =>{
 }
 
 animate()
+
+
+
+
+// javascript
+const toggleON = document.getElementById('turnon')
+const toggleOff = document.getElementById('turnoff')
+const metalAudio = document.getElementById('metal')
+const ts = document.getElementById('tonstark')
+toggleON.addEventListener('click',()=>{
+  state.mute = false
+  metalAudio.muted = false;
+  ts.muted = false
+  ts.play()
+  metalAudio.play()
+  toggleON.classList.replace('text-blueprintGray','text-red-900')
+  if(toggleOff.classList.contains('text-red-900')){
+    toggleOff.classList.replace('text-red-900','text-blueprintGray')
+  }
+})
+
+toggleOff.addEventListener('click',()=>{
+  state.mute = true
+  metalAudio.muted = true;
+  toggleOff.classList.replace('text-blueprintGray','text-red-900')
+  if(toggleON.classList.contains('text-red-900')){
+    toggleON.classList.replace('text-red-900','text-blueprintGray')
+  }
+})
+
