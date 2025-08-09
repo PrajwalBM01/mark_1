@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader, OrbitControls, RectAreaLightHelper } from 'three/examples/jsm/Addons.js';
+import { GLTFLoader, OrbitControls, RectAreaLightHelper, RGBELoader } from 'three/examples/jsm/Addons.js';
 
 import '@theatre/core'
 import studio from '@theatre/studio'
@@ -22,25 +22,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 //loading manager
 const loadingManager = new THREE.LoadingManager();
-// loadingManager.onProgress = ( url, itemsLoaded, itemsTotal ) => {
-//   const percent = (itemsLoaded/itemsTotal)
-//   document.getElementById('loading-bar').style.transform = `scaleX(${percent})`
-// };
+loadingManager.onProgress = ( url, itemsLoaded, itemsTotal ) => {
+  const percent = (itemsLoaded/itemsTotal)
+  document.getElementById('loading-bar').style.transform = `scaleX(${percent})`
+};
 
-// loadingManager.onLoad = () => {
-//   setTimeout(() => {
-//     document.getElementById('screen').classList.remove('hidden')
-//     const loader = document.getElementById('loader')
-//     loader.style.opacity = '0'
-//     loader.style.transition = 'opacity 1s ease-out'
-//     setTimeout(() => {
-//       loader.classList.replace('flex','hidden')
-//       if (state.ironman_model) {
-//         setupAnimation()
-//       }
-//     }, 1000)
-//   }, 2000);
-// }
+loadingManager.onLoad = () => {
+  setTimeout(() => {
+    document.getElementById('screen').classList.remove('hidden')
+    const loader = document.getElementById('loader')
+    loader.style.opacity = '0'
+    loader.style.transition = 'opacity 1s ease-out'
+    setTimeout(() => {
+      loader.classList.replace('flex','hidden')
+      if (state.ironman_model) {
+        setupAnimation()
+      }
+    }, 1000)
+  }, 2000);
+}
 
 /* canvas */
 const canvas = document.getElementById('engine');
@@ -50,12 +50,17 @@ canvas.color
 
 /* scene */
 const scene = new THREE.Scene();
-// scene.background = new THREE.Color(0x1a1a1a)
+state.scene = scene
+scene.background = new THREE.Color(0x000000)
 
 /* fog */
-// scene.fog = new THREE.Fog('black',10,15)2
+scene.fog = new THREE.Fog('black',10,15)
 
-
+const hdriloader = new RGBELoader(loadingManager);
+hdriloader.load('/finals/studio_small_09_1k.hdr', function(texture) {
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+  state.metalTexture = texture
+});
 
 /* camera */
 //main_cam
@@ -66,15 +71,17 @@ const main_cam = new THREE.PerspectiveCamera(
 main_cam.position.set(-4,12.5,14)
 main_cam.rotation.set(-0.35885993397896615,-0.20114612999000137,-0.07480269320403296)
 scene.add(main_cam)
+main_cam.far = 50
+state.camera = main_cam
 const camerHelper = new THREE.CameraHelper(main_cam);
-// scene.add(camerHelper)
+scene.add(camerHelper)
 
 //scenondary_cam
 const scene_cam = new THREE.PerspectiveCamera(
   75,
   window.innerWidth/window.innerHeight
 )
-scene_cam.position.z = 50
+scene_cam.position.set(0,10,40)
 scene.add(scene_cam)
 
 let active_cam = main_cam
@@ -90,37 +97,60 @@ window.addEventListener('keydown',(e)=>{
 
 
 /* lights */
+const lights = {}
 
 //ambientLight
 const light = new THREE.AmbientLight()
 light.intensity = 2
 scene.add(light)
+lights['ambientLight'] = light
 
 //keylight1
-const keyLight = new THREE.RectAreaLight(0xffffff,5,10,16)
-keyLight.position.set(0,10,20)
-scene.add(keyLight)
+const flateLight1 = new THREE.RectAreaLight(0xffffff,5,10,16)
+flateLight1.position.set(0,10,20)
+scene.add(flateLight1)
+lights['flateLight1'] = flateLight1
 
 
-const keyLight2 = new THREE.RectAreaLight(0xffffff,3,14,14)
-keyLight2.position.set(0,5,12)
-keyLight2.rotateX(-Math.PI/2)
-scene.add(keyLight2)
+const flateLight2 = new THREE.RectAreaLight(0xffffff,3,14,14)
+flateLight2.position.set(0,5,12)
+flateLight2.rotateX(-Math.PI/2)
+scene.add(flateLight2)
+lights['flateLight2'] = flateLight2
+
+const keyLight = new THREE.DirectionalLight( 0xffffff, 1.5 );
+keyLight.position.set(11.5,13,13)
+keyLight.target.position.set(-6.5,-10.5,-2)
+// keyLight.castShadow = true;
+scene.add( keyLight );
+lights['keyLight'] = keyLight
+
+const keyLightHelper = new THREE.DirectionalLightHelper(keyLight,5);
+scene.add(keyLightHelper)
+lights['keylightHelper'] = keyLightHelper
 
 
-const directionalLight = new THREE.DirectionalLight( 0xFF5F1F );
-directionalLight.castShadow = true;
-directionalLight.position.set(-16,0,18)
-directionalLight.target.position.set(34,22,-18)
-scene.add( directionalLight );
+const fillLight = new THREE.DirectionalLight( 0xFF5F1F );
+// fillLight.castShadow = true;
+fillLight.position.set(-16,0,18)
+fillLight.target.position.set(34,22,-18)
+scene.add( fillLight );
+lights['fillLight'] = fillLight
+const fillLightHelper = new THREE.DirectionalLightHelper(fillLight,5);
+scene.add(fillLightHelper)
+lights['filllighthelper'] = fillLightHelper
 
 
-const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 1.5 );
-directionalLight2.position.set(11.5,13,13)
-directionalLight2.target.position.set(-6.5,-10.5,-2)
-directionalLight2.castShadow = true;
-scene.add( directionalLight2 );
+const headLight = new THREE.DirectionalLight(0xffffff,0)
+headLight.castShadow = true;
+scene.add(headLight)
+lights['headLight'] = headLight
+const headLightHelper = new THREE.DirectionalLightHelper(headLight,5);
+scene.add(headLightHelper)
+lights['headlighthelper'] = headLightHelper
 
+
+state.lights = lights
 
 /* rendere */
 const renderer = new THREE.WebGLRenderer({
@@ -161,8 +191,10 @@ loader.load(
     const ironman = gltf.scene
     scene.add(ironman); 
     state.ironman_model = ironman
+    ironman.position.y = 1
     ironman.traverse(child=>{
       child.castShadow = true
+      child.receiveShadow = true
       if(child.isGroup) {
         return null
       } else {
@@ -181,24 +213,37 @@ loader.load(
         }
       }
     })
-    setupAnimation()
+    // const ironMan_controler = sheet.object("ironman",{
+    //   position:{
+    //     x:types.number(0,{range:[-10,10],nudgeMultiplier:0.01}),
+    //     y:types.number(0,{range:[-10,10],nudgeMultiplier:0.01}),
+    //     z:types.number(0,{range:[-50,10],nudgeMultiplier:0.01}),
+    //   }
+    // })
+    // ironMan_controler.onValuesChange(value=>{
+    //   ironman.position.set(value.position.x,value.position.y,value.position.z)
+    // })
+    // setupAnimation()
   },
 )
 
 const scene_loader = new GLTFLoader(loadingManager);
 scene_loader.load('background.glb',(gltf)=>{
   const background = gltf.scene;
-  background.position.set(0,0,10)
+  background.position.set(0,0,20)
   background.scale.set(10,10,10)
-  const darkMaterial = new THREE.MeshStandardMaterial({
+  const backgroundMaterial = new THREE.MeshStandardMaterial({
     color: 0x1a1a1a,
-    roughness: 1,
+    roughness: 0.85,  
+    metalness: 0.0, 
     dithering: true
 });
+state.backdropMaterial = backgroundMaterial
   background.traverse(child=>{
     if (child) {
-      child.material = darkMaterial;
+      child.material = backgroundMaterial;
       child.castShadow = true;
+      child.receiveShadow = true;
   }
   })
   scene.add(background)
@@ -213,10 +258,10 @@ scene_loader.load('background.glb',(gltf)=>{
 
 const controls = new OrbitControls(scene_cam,renderer.domElement)
 const animate = () =>{
-  let minIntensity = 0.1;
-  let maxIntensity = 8;
-  let flickering = 15;
-  directionalLight.intensity = minIntensity + (Math.sin(Date.now() * flickering) + 1) / 2 * (maxIntensity - minIntensity);
+  // let minIntensity = 0.1;
+  // let maxIntensity = 8;
+  // let flickering = 15;
+  // fillLight.intensity = minIntensity + (Math.sin(Date.now() * flickering) + 1) / 2 * (maxIntensity - minIntensity);
   window.requestAnimationFrame(animate)
   renderer.render(scene, active_cam)
   controls.update()
@@ -231,12 +276,8 @@ animate()
 const toggleON = document.getElementById('turnon')
 const toggleOff = document.getElementById('turnoff')
 const metalAudio = document.getElementById('metal')
-const ts = document.getElementById('tonstark')
 toggleON.addEventListener('click',()=>{
-  state.mute = false
   metalAudio.muted = false;
-  ts.muted = false
-  ts.play()
   metalAudio.play()
   toggleON.classList.replace('text-blueprintGray','text-red-900')
   if(toggleOff.classList.contains('text-red-900')){
@@ -245,7 +286,6 @@ toggleON.addEventListener('click',()=>{
 })
 
 toggleOff.addEventListener('click',()=>{
-  state.mute = true
   metalAudio.muted = true;
   toggleOff.classList.replace('text-blueprintGray','text-red-900')
   if(toggleON.classList.contains('text-red-900')){
