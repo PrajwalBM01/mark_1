@@ -74,7 +74,7 @@ scene.add(main_cam)
 main_cam.far = 50
 state.camera = main_cam
 const camerHelper = new THREE.CameraHelper(main_cam);
-scene.add(camerHelper)
+// scene.add(camerHelper)
 
 //scenondary_cam
 const scene_cam = new THREE.PerspectiveCamera(
@@ -126,19 +126,19 @@ scene.add( keyLight );
 lights['keyLight'] = keyLight
 
 const keyLightHelper = new THREE.DirectionalLightHelper(keyLight,5);
-scene.add(keyLightHelper)
-lights['keylightHelper'] = keyLightHelper
+// scene.add(keyLightHelper)
+// lights['keylightHelper'] = keyLightHelper
 
 
-const fillLight = new THREE.DirectionalLight( 0xFF5F1F );
+const fillLight = new THREE.DirectionalLight( 0xFF5F1F,4 );
 // fillLight.castShadow = true;
 fillLight.position.set(-16,0,18)
 fillLight.target.position.set(34,22,-18)
 scene.add( fillLight );
 lights['fillLight'] = fillLight
 const fillLightHelper = new THREE.DirectionalLightHelper(fillLight,5);
-scene.add(fillLightHelper)
-lights['filllighthelper'] = fillLightHelper
+// scene.add(fillLightHelper)
+// lights['filllighthelper'] = fillLightHelper
 
 
 const headLight = new THREE.DirectionalLight(0xffffff,0)
@@ -146,8 +146,8 @@ headLight.castShadow = true;
 scene.add(headLight)
 lights['headLight'] = headLight
 const headLightHelper = new THREE.DirectionalLightHelper(headLight,5);
-scene.add(headLightHelper)
-lights['headlighthelper'] = headLightHelper
+// scene.add(headLightHelper)
+// lights['headlighthelper'] = headLightHelper
 
 
 state.lights = lights
@@ -186,12 +186,15 @@ renderer.render(scene,active_cam)
 //ironman
 const loader = new GLTFLoader(loadingManager);
 loader.load(
-  '/finals/letsbegin.glb', 
+  '/finals/animated.glb', 
   function (gltf) {
     const ironman = gltf.scene
+    console.log(gltf.animations)
     scene.add(ironman); 
+    console.log(ironman)
     state.ironman_model = ironman
     ironman.position.y = 1
+    ironman.position.z = 1
     ironman.traverse(child=>{
       child.castShadow = true
       child.receiveShadow = true
@@ -258,10 +261,6 @@ state.backdropMaterial = backgroundMaterial
 
 const controls = new OrbitControls(scene_cam,renderer.domElement)
 const animate = () =>{
-  // let minIntensity = 0.1;
-  // let maxIntensity = 8;
-  // let flickering = 15;
-  // fillLight.intensity = minIntensity + (Math.sin(Date.now() * flickering) + 1) / 2 * (maxIntensity - minIntensity);
   window.requestAnimationFrame(animate)
   renderer.render(scene, active_cam)
   controls.update()
