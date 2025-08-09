@@ -22,9 +22,8 @@ gsap.registerPlugin(SplitText)
 
 export function setupAnimation(){
 
+  const camera = state.camera
   const parts = state.ironman_model.children
-  console.log(parts)
-  console.log(state.ironman_model.children[0])
 
   //finltering the parts
   const filtered_parts = state.ironman_parts.filter(part=>{
@@ -90,7 +89,7 @@ export function setupAnimation(){
         start: 'top top',
         end:'bottom top',
         scrub:true,
-        markers:true
+        // markers:true
       }
     })
 
@@ -209,7 +208,7 @@ export function setupAnimation(){
       start:'top bottom',
       end:'bottom top',
       animation:modelRotation,
-      markers:true,
+      // markers:true,
       onEnter:()=>{
         modelRotation.restart()
       },
@@ -232,10 +231,51 @@ export function setupAnimation(){
       }
     })
 
+
+    const enter = (
+      part,
+      partname,
+      part_rotation,
+      y,z
+    )=>{
+      gsap.to(camera.position,{
+        x:part.position.x,
+        y:part.position.y + y,
+        z:part.position.z +z ,
+        ease:"power1.in"
+      })
+      parts.forEach(each=>{
+        if(each.name != partname){
+          each.visible = false
+        }
+      })
+      part_rotation.restart()
+    }
+
+    const leave = (
+      part,
+      partname,
+      part_rotation,
+    )=>{
+      gsap.to(camera.position,{
+        x:-0.1,
+        y:12,
+        z:18
+      })
+      parts.forEach(each=>{
+        if(each.name != partname){
+          each.visible = true
+        }
+      })
+      part_rotation.pause()
+      gsap.to(part.rotation,{
+        y:0
+      })
+    }
+
+
     //helmet animation
-    const helmet = state.ironman_model.children[0]
-    const helmetTimline = gsap.timeline();
-    const camera = state.camera
+    const helmet = parts[0]
     const helmet_rotataion = gsap.to(helmet.rotation,{
       y: "+=6.28",
       ease:'none',
@@ -247,69 +287,158 @@ export function setupAnimation(){
       trigger:"#helmet",
       start:"top top",
       end:"bottom top",
-      markers:true,
-      // animation:helmetTimline,
       onEnter:()=>{
-        gsap.to(camera.position,{
-          x:helmet.position.x,
-          y:helmet.position.y + 2,
-          z:helmet.position.z + 10,
-          ease:'power1.in'
-        })
-        parts.forEach(part=>{
-          if(part.name != "helmet"){
-            part.visible = false
-          }
-        })
-        helmet_rotataion.restart()
+        enter(helmet,"helmet",helmet_rotataion,2,10)
       },
       onLeave:()=>{
-        gsap.to(camera.position,{
-          x:-0.1,
-          y:12,
-          z:18
-        })
-        parts.forEach(part=>{
-          if(part.name != "helmet"){
-            part.visible = true
-          }
-        })
-        helmet_rotataion.pause()
-        gsap.to(helmet.rotation,{
-          y:0
-        })
+        leave(helmet,"helmet",helmet_rotataion)
       },
       onEnterBack:()=>{
-        gsap.to(camera.position,{
-          x:helmet.position.x,
-          y:helmet.position.y + 2,
-          z:helmet.position.z + 10,
-          ease:'power1.in'
-        })
-        parts.forEach(part=>{
-          if(part.name != "helmet"){
-            part.visible = false
-          }
-        })
-        helmet_rotataion.restart()
+        enter(helmet,"helmet",helmet_rotataion,2,10)
       },
       onLeaveBack:()=>{
-        gsap.to(camera.position,{
-          x:-0.1,
-          y:12,
-          z:18
-        })
-        helmet_rotataion.pause()
-        parts.forEach(part=>{
-          if(part.name != "helmet"){
-            part.visible = true
-          }
-        })
-        gsap.to(helmet.rotation,{
-          y:0
-        })
+        leave(helmet,"helmet",helmet_rotataion)
       }
     })
 
 
+    //leftarm animation
+    const leftArm = parts[5]
+    const leftArm_rotation = gsap.to(leftArm.rotation,{
+      y:"+=6.28",
+      ease:'none',
+      duration:5,
+      repeat:-1,
+      paused:true
+    })
+    ScrollTrigger.create({
+      trigger:"#leftArm",
+      start:"top top",
+      end:"bottom top",
+      markers:true,
+      onEnter:()=>{
+        enter(leftArm,"arm_left",leftArm_rotation,3,10)
+      },
+      onLeave:()=>{
+        leave(leftArm,"arm_left",leftArm_rotation)
+      },
+      onEnterBack:()=>{
+        enter(leftArm,"arm_left",leftArm_rotation,3,10)
+      },
+      onLeaveBack:()=>{
+        leave(leftArm,"arm_left",leftArm_rotation)
+      }
+    })
+
+    //rightArm animation
+    const rightArm = parts[4]
+    const rightArm_rotation = gsap.to(rightArm.rotation,{
+      y:"+=6.28",
+      ease:'none',
+      duration:5,
+      repeat:-1,
+      paused:true
+    })
+    ScrollTrigger.create({
+      trigger:"#rightArm",
+      start:"top top",
+      end:"bottom top",
+      markers:true,
+      onEnter:()=>{
+        enter(rightArm,"arm_right",rightArm_rotation,3,10)
+      },
+      onLeave:()=>{
+        leave(rightArm,"arm_right",rightArm_rotation)
+      },
+      onEnterBack:()=>{
+        enter(rightArm,"arm_right",rightArm_rotation,3,10)
+      },
+      onLeaveBack:()=>{
+        leave(rightArm,"arm_right",rightArm_rotation)
+      }
+    })
+
+    //leftLeg animation
+    const leftLeg = parts[3]
+    const leftLeg_rotation = gsap.to(leftLeg.rotation,{
+      y:"+=6.28",
+      ease:'none',
+      duration:5,
+      repeat:-1,
+      paused:true
+    })
+    ScrollTrigger.create({
+      trigger:"#leftleg",
+      start:"top top",
+      end:"bottom top",
+      markers:true,
+      onEnter:()=>{
+        enter(leftLeg,"leg_left",leftLeg_rotation,3,12)
+      },
+      onLeave:()=>{
+        leave(leftLeg,"leg_left",leftLeg_rotation)
+      },
+      onEnterBack:()=>{
+        enter(leftLeg,"leg_left",leftLeg_rotation,3,12)
+      },
+      onLeaveBack:()=>{
+        leave(leftLeg,"leg_left",leftLeg_rotation)
+      }
+    })
+
+    //RightLeg animation
+    const rightLeg = parts[2]
+    const rightLeg_rotation = gsap.to(rightLeg.rotation,{
+      y:"+=6.28",
+      ease:'none',
+      duration:5,
+      repeat:-1,
+      paused:true
+    })
+    ScrollTrigger.create({
+      trigger:"#rightleg",
+      start:"top top",
+      end:"bottom top",
+      markers:true,
+      onEnter:()=>{
+        enter(rightLeg,"leg_right",rightLeg_rotation,3,12)
+      },
+      onLeave:()=>{
+        leave(rightLeg,"leg_right",rightLeg_rotation)
+      },
+      onEnterBack:()=>{
+        enter(rightLeg,"leg_right",rightLeg_rotation,3,12)
+      },
+      onLeaveBack:()=>{
+        leave(rightLeg,"leg_right",rightLeg_rotation)
+      }
+    })
+    
+    //torso animation
+    const torso = parts[1]
+    const torso_rotation = gsap.to(torso.rotation,{
+      y:"+=6.28",
+      ease:'none',
+      duration:5,
+      repeat:-1,
+      paused:true
+    })
+    ScrollTrigger.create({
+      trigger:"#trso",
+      start:"top top",
+      end:"bottom top",
+      markers:true,
+      onEnter:()=>{
+        enter(torso,"torso",torso_rotation,3,15)
+      },
+      onLeave:()=>{
+        leave(torso,"torso",torso_rotation)
+      },
+      onEnterBack:()=>{
+        enter(torso,"torso",torso_rotation,3,15)
+      },
+      onLeaveBack:()=>{
+        leave(torso,"torso",torso_rotation)
+      }
+    })
 }
