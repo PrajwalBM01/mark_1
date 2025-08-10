@@ -22,25 +22,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 //loading manager
 const loadingManager = new THREE.LoadingManager();
-loadingManager.onProgress = ( url, itemsLoaded, itemsTotal ) => {
-  const percent = (itemsLoaded/itemsTotal)
-  document.getElementById('loading-bar').style.transform = `scaleX(${percent})`
-};
+// loadingManager.onProgress = ( url, itemsLoaded, itemsTotal ) => {
+//   const percent = (itemsLoaded/itemsTotal)
+//   document.getElementById('loading-bar').style.transform = `scaleX(${percent})`
+// };
 
-loadingManager.onLoad = () => {
-  setTimeout(() => {
-    document.getElementById('screen').classList.remove('hidden')
-    const loader = document.getElementById('loader')
-    loader.style.opacity = '0'
-    loader.style.transition = 'opacity 1s ease-out'
-    setTimeout(() => {
-      loader.classList.replace('flex','hidden')
-      if (state.ironman_model) {
-        setupAnimation()
-      }
-    }, 1000)
-  }, 2000);
-}
+// loadingManager.onLoad = () => {
+//   setTimeout(() => {
+//     document.getElementById('screen').classList.remove('hidden')
+//     const loader = document.getElementById('loader')
+//     loader.style.opacity = '0'
+//     loader.style.transition = 'opacity 1s ease-out'
+//     setTimeout(() => {
+//       loader.classList.replace('flex','hidden')
+//       if (state.ironman_model) {
+//         setupAnimation()
+//       }
+//     }, 1000)
+//   }, 2000);
+// }
 
 /* canvas */
 const canvas = document.getElementById('engine');
@@ -226,7 +226,7 @@ loader.load(
     // ironMan_controler.onValuesChange(value=>{
     //   ironman.position.set(value.position.x,value.position.y,value.position.z)
     // })
-    // setupAnimation()
+    setupAnimation()
   },
 )
 

@@ -24,6 +24,10 @@ export function setupAnimation(){
 
   const camera = state.camera
   const parts = state.ironman_model.children
+  // state.ironman_model.traverse(child=>{
+  //   console.log(child)
+  // })
+
 
   //finltering the parts
   const filtered_parts = state.ironman_parts.filter(part=>{
@@ -89,7 +93,7 @@ export function setupAnimation(){
         start: 'top top',
         end:'bottom top',
         scrub:true,
-        // markers:true
+        markers:true
       }
     })
 
@@ -260,11 +264,13 @@ export function setupAnimation(){
       gsap.to(camera.position,{
         x:-0.1,
         y:12,
-        z:18
+        z:18,
+        ease:"power1.in"
       })
       parts.forEach(each=>{
         if(each.name != partname){
           each.visible = true
+          
         }
       })
       part_rotation.pause()
@@ -441,4 +447,7 @@ export function setupAnimation(){
         leave(torso,"torso",torso_rotation)
       }
     })
+
+
+    
 }
