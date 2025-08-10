@@ -22,7 +22,7 @@
     <canvas id="engine" class="fixed top-0 left-0 outline-none -z-1"></canvas>
 
     <!--main dom--> <!--dont forget hidden-->
-    <div id="screen" class="h-full w-full border-red-600 "> 
+    <div id="screen" class="h-full w-full "> 
       <section id="section1" class=" h-[200vh] text-white flex justify-center items-start "> 
         <div id="sns" class="h-screen w-full flex justify-center items-center font-orbiton">
           <div class=" flex flex-col gap-5 items-end fixed">
@@ -38,32 +38,51 @@
 
 
       <section id="studio1" class=" text-white h-screen">
-        <div class="border h-full sticky top-0 border-amber-300">tony start was able to build this in a cave</div>
+        <div class="border border-amber-300 h-full hidden">tony start was able to build this in a cave</div>
       </section>
-      <section id="studio2" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">body parts</div>
-      </section>
-      <section id="helmet" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">helmet parts</div>
-      </section>
-      <section id="leftArm" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">leftArm parts</div>
-      </section>
-      <section id="rightArm" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">rightArm parts</div>
-      </section>
-      <section id="leftleg" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">leftLeg parts</div>
-      </section>
-      <section id="rightleg" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">reightLeg parts</div>
-      </section>
-      <section id="trso" class=" text-white h-screen">
-        <div class="border border-red-400 h-full sticky top-0">torso parts</div>
-      </section>
-      <section id="idk" class=" text-white h-[200vh]">
-        <div class="border border-red-400 h-full sticky top-0">the end</div>
-      </section>
+
+
+      <div id="wholeTimeline" class="relative border-green-500">
+        <div id="timelineScroll" class="z-5  h-screen fixed top-0 w-screen flex items-center opacity-0">
+          <div class="backdrop-blur-lg bg-black/5 p-6  w-15 h-100 rounded-r-2xl ">
+            <div id="scroll-bar" class=" h-full w-full flex flex-col items-center justify-evenly relative">
+              <div class="h-5 border w-10 z-2 absolute"></div>
+              <a href="#allParts" class=" scroll-link border-b h-full w-full"></a>
+              <a href="#helmet" class="scroll-link border-b h-full w-full"></a>
+              <a href="#leftArm" class=" scroll-link border-b h-full w-full"></a>
+              <a href="#rightArm" class=" scroll-link border-b h-full w-full"></a>
+              <a href="#leftleg" class=" scroll-link border-b h-full w-full"></a>
+              <a href="#rightleg" class=" scroll-link border-b h-full w-full"></a>
+              <a href="#torso" class=" scroll-link border-b h-full w-full"></a>
+            </div>
+          </div>
+        </div>
+        <div id="allParts" class="parts">
+          <div class="border border-red-400 h-full w-full fixed top-0 hidden">body parts</div>
+        </div>
+        <div id="helmet" class="parts">
+          <div class="partsInfo">helmet parts</div>
+        </div>
+        <div id="leftArm" class="parts">
+          <div class="partsInfo">leftArm parts</div>
+        </div>
+        <div id="rightArm" class="parts">
+          <div class="partsInfo">rightArm parts</div>
+        </div>
+        <div id="leftleg" class="parts">
+          <div class="partsInfo">leftLeg parts</div>
+        </div>
+        <div id="rightleg" class="parts">
+          <div class="partsInfo">reightLeg parts</div>
+        </div>
+        <div id="torso" class="parts">
+          <div class="partsInfo">torso parts</div>
+        </div>
+        <div id="theEnd" class="parts">
+          <div class="partsInfo">the end</div>
+        </div>
+      </div>
+      
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

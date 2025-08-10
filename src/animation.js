@@ -198,6 +198,28 @@ export function setupAnimation(){
       ease:'easeInOut'
     })
 
+
+    //the whole timline thing
+    ScrollTrigger.create({
+      trigger:"#wholeTimeline",
+      start:"start center-=85",
+      end:"bottom bottom",
+      markers:true,
+      onToggle:(self)=>{
+        if(self.isActive){
+          gsap.to(document.getElementById('timelineScroll'),{
+            opacity:1,
+            ease:"power1.in"
+          })
+        }else{
+          gsap.to(document.getElementById('timelineScroll'),{
+            opacity:0,
+            ease:"power1.out"
+          })
+        }
+      }
+    })
+
     //model rotation
     const modelRotation = gsap.to(state.ironman_model.rotation,{
       y: '+=6.28',
@@ -208,8 +230,8 @@ export function setupAnimation(){
     })
 
     ScrollTrigger.create({
-      trigger:'#studio2',
-      start:'top bottom',
+      trigger:'#allParts',
+      start:'center bottom',
       end:'bottom top',
       animation:modelRotation,
       // markers:true,
@@ -240,7 +262,8 @@ export function setupAnimation(){
       part,
       partname,
       part_rotation,
-      y,z
+      y,
+      z,
     )=>{
       gsap.to(camera.position,{
         x:part.position.x,
@@ -254,7 +277,9 @@ export function setupAnimation(){
         }
       })
       part_rotation.restart()
+      
     }
+
 
     const leave = (
       part,
@@ -275,7 +300,25 @@ export function setupAnimation(){
       })
       part_rotation.pause()
       gsap.to(part.rotation,{
-        y:0
+        y:0,
+      })
+      
+    }
+
+    const active = (partElement)=>{
+      gsap.to(document.getElementById(partElement).firstElementChild,{
+        opacity:1,
+        display:'flex',
+        ease:'power1.in'
+      })
+    }
+
+    const inactive = (partElement)=>{
+      gsap.to(document.getElementById(partElement).firstElementChild,{
+        opacity:0,
+        display:'none',
+        ease:'none',
+        duration:0
       })
     }
 
@@ -293,6 +336,14 @@ export function setupAnimation(){
       trigger:"#helmet",
       start:"top top",
       end:"bottom top",
+      onToggle:(self)=>{
+        console.log(self.isActive)
+        if(self.isActive){
+          active('helmet')
+        }else{
+          inactive('helmet')
+        }
+      },
       onEnter:()=>{
         enter(helmet,"helmet",helmet_rotataion,2,10)
       },
@@ -321,7 +372,15 @@ export function setupAnimation(){
       trigger:"#leftArm",
       start:"top top",
       end:"bottom top",
-      markers:true,
+      // markers:true,
+      onToggle:(self)=>{
+        console.log(self.isActive)
+        if(self.isActive){
+          active('leftArm')
+        }else{
+          inactive('leftArm')
+        }
+      },
       onEnter:()=>{
         enter(leftArm,"arm_left",leftArm_rotation,3,10)
       },
@@ -349,7 +408,15 @@ export function setupAnimation(){
       trigger:"#rightArm",
       start:"top top",
       end:"bottom top",
-      markers:true,
+      onToggle:(self)=>{
+        console.log(self.isActive)
+        if(self.isActive){
+          active('rightArm')
+        }else{
+          inactive('rightArm')
+        }
+      },
+      // markers:true,
       onEnter:()=>{
         enter(rightArm,"arm_right",rightArm_rotation,3,10)
       },
@@ -377,7 +444,15 @@ export function setupAnimation(){
       trigger:"#leftleg",
       start:"top top",
       end:"bottom top",
-      markers:true,
+      onToggle:(self)=>{
+        console.log(self.isActive)
+        if(self.isActive){
+          active('leftleg')
+        }else{
+          inactive('leftleg')
+        }
+      },
+      // markers:true,
       onEnter:()=>{
         enter(leftLeg,"leg_left",leftLeg_rotation,3,12)
       },
@@ -405,7 +480,15 @@ export function setupAnimation(){
       trigger:"#rightleg",
       start:"top top",
       end:"bottom top",
-      markers:true,
+      onToggle:(self)=>{
+        console.log(self.isActive)
+        if(self.isActive){
+          active('rightleg')
+        }else{
+          inactive('rightleg')
+        }
+      },
+      // markers:true,
       onEnter:()=>{
         enter(rightLeg,"leg_right",rightLeg_rotation,3,12)
       },
@@ -430,10 +513,18 @@ export function setupAnimation(){
       paused:true
     })
     ScrollTrigger.create({
-      trigger:"#trso",
+      trigger:"#torso",
       start:"top top",
       end:"bottom top",
-      markers:true,
+      onToggle:(self)=>{
+        console.log(self.isActive)
+        if(self.isActive){
+          active('torso')
+        }else{
+          inactive('torso')
+        }
+      },
+      // markers:true,
       onEnter:()=>{
         enter(torso,"torso",torso_rotation,3,15)
       },
@@ -448,6 +539,42 @@ export function setupAnimation(){
       }
     })
 
+    ScrollTrigger.create({
+      trigger:"#theEnd",
+      start:'top top',
+      end:"bottom top",
+      onEnter:()=>{
+        gsap.to(document.getElementById("theEnd").firstElementChild,{
+          opacity:1,
+          display:'flex',
+          ease:'power1.in'
+        })
+      },
+      onLeaveBack:()=>{
+        gsap.to(document.getElementById('theEnd').firstElementChild,{
+          opacity:0,
+          display:'none',
+          ease:'none',
+          duration:0
+        })
+      }
+    })
 
-    
+
+  //   const sectionsToPin = gsap.utils.toArray([
+  //     "#studio1", "#studio2", "#helmet", "#leftArm", "#rightArm", 
+  //     "#leftleg", "#rightleg", "#trso", "#idk"
+  // ]);
+  
+  // // Loop over each section and create a ScrollTrigger for it
+  // sectionsToPin.forEach(section => {
+  //     ScrollTrigger.create({
+  //         trigger: section, // The section itself is the trigger
+  //         pin: section.querySelector("div"), // The element to pin is the div INSIDE the section
+  //         start: "top top", // Pin when the top of the section hits the top of the viewport
+  //         end: "bottom top", // Unpin when the bottom of the section hits the top of the viewport
+  //         pinSpacing: false, // Prevents GSAP from adding extra space, letting the next section slide over it
+  //         markers: true // Add markers for debugging. REMOVE THIS for production.
+  //     });
+  // });
 }

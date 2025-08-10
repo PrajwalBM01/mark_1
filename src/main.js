@@ -15,9 +15,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { state } from './state';
 import { setupAnimation } from './animation';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
 // 1. REGISTER THE PLUGIN - This is mandatory.
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollToPlugin);
 
 
 //loading manager
@@ -292,3 +294,30 @@ toggleOff.addEventListener('click',()=>{
   }
 })
 
+const scrollLinks = document.querySelectorAll('.scroll-link');
+console.log(typeof(scrollLinks))
+
+scrollLinks.forEach(link=>{
+ console.log(link)
+ link.addEventListener('click',(e=>{
+  e.preventDefault()
+  const targetElement = link.getAttribute('href');
+  if(targetElement){
+    gsap.to(window, {
+      ease: "power2.inOut", 
+      scrollTo: {
+        y: targetElement, 
+        offsetY: -1 
+      }
+    });
+  }
+ }))
+})
+
+window.onbeforeunload = () => {
+  window.scrollTo(0, 0);
+};
+
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
