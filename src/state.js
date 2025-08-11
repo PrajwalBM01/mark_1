@@ -6,6 +6,7 @@ export const state = {
     lights : null,
     ironman_model:null,
     ironman_parts : [],
+    animation:null,
     position:{},
     roatatio:{},
 }

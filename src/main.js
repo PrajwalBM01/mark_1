@@ -191,7 +191,7 @@ loader.load(
   '/finals/animated.glb', 
   function (gltf) {
     const ironman = gltf.scene
-    console.log(gltf.animations)
+    state.animation = gltf.animations
     scene.add(ironman); 
     console.log(ironman)
     state.ironman_model = ironman
@@ -294,25 +294,23 @@ toggleOff.addEventListener('click',()=>{
   }
 })
 
-const scrollLinks = document.querySelectorAll('.scroll-link');
-console.log(typeof(scrollLinks))
+// const scrollLinks = document.querySelectorAll('.scroll-link');
 
-scrollLinks.forEach(link=>{
- console.log(link)
- link.addEventListener('click',(e=>{
-  e.preventDefault()
-  const targetElement = link.getAttribute('href');
-  if(targetElement){
-    gsap.to(window, {
-      ease: "power2.inOut", 
-      scrollTo: {
-        y: targetElement, 
-        offsetY: -1 
-      }
-    });
-  }
- }))
-})
+// scrollLinks.forEach(link=>{
+//  link.addEventListener('click',(e=>{
+//   e.preventDefault()
+//   const targetElement = link.getAttribute('href');
+//   if(targetElement){
+//     gsap.to(window, {
+//       ease: "power2.inOut", 
+//       scrollTo: {
+//         y: targetElement, 
+//         offsetY: -1 
+//       }
+//     });
+//   }
+//  }))
+// })
 
 window.onbeforeunload = () => {
   window.scrollTo(0, 0);

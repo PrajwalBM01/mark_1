@@ -24,10 +24,34 @@ export function setupAnimation(){
 
   const camera = state.camera
   const parts = state.ironman_model.children
-  // state.ironman_model.traverse(child=>{
-  //   console.log(child)
-  // })
+  const mixer = new THREE.AnimationMixer(state.ironman_model)
+  let disected = false
 
+  const actionClips = state.animation.reduce((accumulator,animation)=>{
+    const action = mixer.clipAction(animation)
+    action.play()
+    action.paused = true
+
+    if(animation.name.includes("helmet")){
+      accumulator.helmet.push(action) 
+    }
+    if(animation.name.includes("arm_left")){
+      accumulator.leftArm.push(action)
+    }
+    if(animation.name.includes("arm_right")){
+      accumulator.rightArm.push(action)
+    }
+    if(animation.name.includes("leg_left")){
+      accumulator.leftleg.push(action)
+    }
+    if(animation.name.includes("leg_right")){
+      accumulator.rightleg.push(action)
+    }
+    if(animation.name.includes("torso")){
+      accumulator.torso.push(action)
+    }
+    return accumulator
+  },{helmet:[],leftArm:[],rightArm:[],leftleg:[],rightleg:[],torso:[]})
 
   //finltering the parts
   const filtered_parts = state.ironman_parts.filter(part=>{
@@ -200,25 +224,25 @@ export function setupAnimation(){
 
 
     //the whole timline thing
-    ScrollTrigger.create({
-      trigger:"#wholeTimeline",
-      start:"start center-=85",
-      end:"bottom bottom",
-      markers:true,
-      onToggle:(self)=>{
-        if(self.isActive){
-          gsap.to(document.getElementById('timelineScroll'),{
-            opacity:1,
-            ease:"power1.in"
-          })
-        }else{
-          gsap.to(document.getElementById('timelineScroll'),{
-            opacity:0,
-            ease:"power1.out"
-          })
-        }
-      }
-    })
+    // ScrollTrigger.create({
+    //   trigger:"#wholeTimeline",
+    //   start:"start center-=85",
+    //   end:"bottom bottom",
+    //   markers:true,
+    //   onToggle:(self)=>{
+    //     if(self.isActive){
+    //       gsap.to(document.getElementById('timelineScroll'),{
+    //         opacity:1,
+    //         ease:"power1.in"
+    //       })
+    //     }else{
+    //       gsap.to(document.getElementById('timelineScroll'),{
+    //         opacity:0,
+    //         ease:"power1.out"
+    //       })
+    //     }
+    //   }
+    // })
 
     //model rotation
     const modelRotation = gsap.to(state.ironman_model.rotation,{
@@ -305,22 +329,52 @@ export function setupAnimation(){
       
     }
 
+    const eventFunctions = new Map()
+
     const active = (partElement)=>{
-      gsap.to(document.getElementById(partElement).firstElementChild,{
+      const element = document.getElementById(partElement).firstElementChild
+      gsap.to(element,{
         opacity:1,
         display:'flex',
         ease:'power1.in'
       })
+      console.log(actionClips[partElement])
+      const actions = actionClips[partElement]
+      const clickHandler = ()=>{
+        console.log('clicked', partElement)
+        disected = !disected
+        console.log(disected)
+        actions.forEach(action=>{
+          action.paused = false
+          // action.time = disected? (action.getClip().duration) : (0)
+        })
+        gsap.to(actions,{
+          time:(index,target)=> disected? (target.getClip().duration):(0),
+          ease:'expo.inOut',
+          stagger:0.02,
+          onUpdate:()=>{
+            mixer.update(0)
+          }
+        })
+      }
+      eventFunctions.set(partElement,clickHandler)
+      element.addEventListener('dblclick',clickHandler)
     }
 
     const inactive = (partElement)=>{
-      gsap.to(document.getElementById(partElement).firstElementChild,{
+      const element = document.getElementById(partElement).firstElementChild
+      gsap.to(element,{
         opacity:0,
         display:'none',
         ease:'none',
         duration:0
       })
+      disected = false
+      const clickHandler = eventFunctions.get(partElement)
+      element.removeEventListener('dblclick',clickHandler)
     }
+
+    
 
 
     //helmet animation
@@ -336,8 +390,9 @@ export function setupAnimation(){
       trigger:"#helmet",
       start:"top top",
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       onToggle:(self)=>{
-        console.log(self.isActive)
         if(self.isActive){
           active('helmet')
         }else{
@@ -372,9 +427,10 @@ export function setupAnimation(){
       trigger:"#leftArm",
       start:"top top",
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       // markers:true,
       onToggle:(self)=>{
-        console.log(self.isActive)
         if(self.isActive){
           active('leftArm')
         }else{
@@ -408,8 +464,9 @@ export function setupAnimation(){
       trigger:"#rightArm",
       start:"top top",
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       onToggle:(self)=>{
-        console.log(self.isActive)
         if(self.isActive){
           active('rightArm')
         }else{
@@ -444,8 +501,9 @@ export function setupAnimation(){
       trigger:"#leftleg",
       start:"top top",
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       onToggle:(self)=>{
-        console.log(self.isActive)
         if(self.isActive){
           active('leftleg')
         }else{
@@ -480,8 +538,10 @@ export function setupAnimation(){
       trigger:"#rightleg",
       start:"top top",
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       onToggle:(self)=>{
-        console.log(self.isActive)
+
         if(self.isActive){
           active('rightleg')
         }else{
@@ -516,8 +576,9 @@ export function setupAnimation(){
       trigger:"#torso",
       start:"top top",
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       onToggle:(self)=>{
-        console.log(self.isActive)
         if(self.isActive){
           active('torso')
         }else{
@@ -543,6 +604,8 @@ export function setupAnimation(){
       trigger:"#theEnd",
       start:'top top',
       end:"bottom top",
+      fastScrollEnd: true,
+      preventOverlaps: true,
       onEnter:()=>{
         gsap.to(document.getElementById("theEnd").firstElementChild,{
           opacity:1,
