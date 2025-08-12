@@ -24,34 +24,34 @@ export function setupAnimation(){
 
   const camera = state.camera
   const parts = state.ironman_model.children
-  const mixer = new THREE.AnimationMixer(state.ironman_model)
-  let disected = false
+  // const mixer = new THREE.AnimationMixer(state.ironman_model)
+  // let disected = false
 
-  const actionClips = state.animation.reduce((accumulator,animation)=>{
-    const action = mixer.clipAction(animation)
-    action.play()
-    action.paused = true
+  // const actionClips = state.animation.reduce((accumulator,animation)=>{
+  //   const action = mixer.clipAction(animation)
+  //   action.play()
+  //   action.paused = true
 
-    if(animation.name.includes("helmet")){
-      accumulator.helmet.push(action) 
-    }
-    if(animation.name.includes("arm_left")){
-      accumulator.leftArm.push(action)
-    }
-    if(animation.name.includes("arm_right")){
-      accumulator.rightArm.push(action)
-    }
-    if(animation.name.includes("leg_left")){
-      accumulator.leftleg.push(action)
-    }
-    if(animation.name.includes("leg_right")){
-      accumulator.rightleg.push(action)
-    }
-    if(animation.name.includes("torso")){
-      accumulator.torso.push(action)
-    }
-    return accumulator
-  },{helmet:[],leftArm:[],rightArm:[],leftleg:[],rightleg:[],torso:[]})
+  //   if(animation.name.includes("helmet")){
+  //     accumulator.helmet.push(action) 
+  //   }
+  //   if(animation.name.includes("arm_left")){
+  //     accumulator.leftArm.push(action)
+  //   }
+  //   if(animation.name.includes("arm_right")){
+  //     accumulator.rightArm.push(action)
+  //   }
+  //   if(animation.name.includes("leg_left")){
+  //     accumulator.leftleg.push(action)
+  //   }
+  //   if(animation.name.includes("leg_right")){
+  //     accumulator.rightleg.push(action)
+  //   }
+  //   if(animation.name.includes("torso")){
+  //     accumulator.torso.push(action)
+  //   }
+  //   return accumulator
+  // },{helmet:[],leftArm:[],rightArm:[],leftleg:[],rightleg:[],torso:[]})
 
   //finltering the parts
   const filtered_parts = state.ironman_parts.filter(part=>{
@@ -223,26 +223,40 @@ export function setupAnimation(){
     })
 
 
+    let currentActiveHeader = null;
+
+    const switchHeader = (newHeaderElement)=>{
+      document.querySelectorAll('.fixed-header').forEach(header=>{
+        header.classList.remove('active');
+      });
+
+      if(newHeaderElement){
+        newHeaderElement.classList.add('active');
+        currentActiveHeader = newHeaderElement
+      }
+    }
     //the whole timline thing
-    // ScrollTrigger.create({
-    //   trigger:"#wholeTimeline",
-    //   start:"start center-=85",
-    //   end:"bottom bottom",
-    //   markers:true,
-    //   onToggle:(self)=>{
-    //     if(self.isActive){
-    //       gsap.to(document.getElementById('timelineScroll'),{
-    //         opacity:1,
-    //         ease:"power1.in"
-    //       })
-    //     }else{
-    //       gsap.to(document.getElementById('timelineScroll'),{
-    //         opacity:0,
-    //         ease:"power1.out"
-    //       })
-    //     }
-    //   }
-    // })
+    ScrollTrigger.create({
+      trigger:'#wholeTimeline',
+      start:'top top',
+      end:'bottom top',
+      markers:true,
+      onToggle:(self)=>{
+        if(self.isActive){
+          gsap.to(document.getElementsByClassName('fixed-header-container'),{
+            opacity:1,
+            display:'flex',
+            ease:'power1.inOut'
+          })
+        }else{
+          gsap.to(document.getElementsByClassName('fixed-header-container'),{
+            opacity:0,
+            display:'none',
+            ease:'power1.inOut'
+          })
+        }
+      }
+    }) 
 
     //model rotation
     const modelRotation = gsap.to(state.ironman_model.rotation,{
@@ -260,6 +274,7 @@ export function setupAnimation(){
       animation:modelRotation,
       // markers:true,
       onEnter:()=>{
+        switchHeader(document.querySelector(`.fixed-header[data-section="allParts"]`))
         modelRotation.restart()
       },
       onLeave:()=>{
@@ -270,6 +285,7 @@ export function setupAnimation(){
         })
       },
       onEnterBack:()=>{
+        switchHeader(document.querySelector(`.fixed-header[data-section="allParts"]`))
         modelRotation.restart();
       },
       onLeaveBack:()=>{
@@ -289,6 +305,7 @@ export function setupAnimation(){
       y,
       z,
     )=>{
+      switchHeader(document.querySelector(`.fixed-header[data-section="${partname}"]`))
       gsap.to(camera.position,{
         x:part.position.x,
         y:part.position.y + y,
@@ -329,50 +346,50 @@ export function setupAnimation(){
       
     }
 
-    const eventFunctions = new Map()
+    // const eventFunctions = new Map()
 
-    const active = (partElement)=>{
-      const element = document.getElementById(partElement).firstElementChild
-      gsap.to(element,{
-        opacity:1,
-        display:'flex',
-        ease:'power1.in'
-      })
-      console.log(actionClips[partElement])
-      const actions = actionClips[partElement]
-      const clickHandler = ()=>{
-        console.log('clicked', partElement)
-        disected = !disected
-        console.log(disected)
-        actions.forEach(action=>{
-          action.paused = false
-          // action.time = disected? (action.getClip().duration) : (0)
-        })
-        gsap.to(actions,{
-          time:(index,target)=> disected? (target.getClip().duration):(0),
-          ease:'expo.inOut',
-          stagger:0.02,
-          onUpdate:()=>{
-            mixer.update(0)
-          }
-        })
-      }
-      eventFunctions.set(partElement,clickHandler)
-      element.addEventListener('dblclick',clickHandler)
-    }
+    // const active = (partElement)=>{
+    //   const element = document.getElementById(partElement).firstElementChild
+    //   gsap.to(element,{
+    //     opacity:1,
+    //     display:'flex',
+    //     ease:'power1.in'
+    //   })
+    //   console.log(actionClips[partElement])
+    //   const actions = actionClips[partElement]
+    //   const clickHandler = ()=>{
+    //     console.log('clicked', partElement)
+    //     disected = !disected
+    //     console.log(disected)
+    //     actions.forEach(action=>{
+    //       action.paused = false
+    //       // action.time = disected? (action.getClip().duration) : (0)
+    //     })
+    //     gsap.to(actions,{
+    //       time:(index,target)=> disected? (target.getClip().duration):(0),
+    //       ease:'expo.inOut',
+    //       stagger:0.02,
+    //       onUpdate:()=>{
+    //         mixer.update(0)
+    //       }
+    //     })
+    //   }
+    //   eventFunctions.set(partElement,clickHandler)
+    //   element.addEventListener('dblclick',clickHandler)
+    // }
 
-    const inactive = (partElement)=>{
-      const element = document.getElementById(partElement).firstElementChild
-      gsap.to(element,{
-        opacity:0,
-        display:'none',
-        ease:'none',
-        duration:0
-      })
-      disected = false
-      const clickHandler = eventFunctions.get(partElement)
-      element.removeEventListener('dblclick',clickHandler)
-    }
+    // const inactive = (partElement)=>{
+    //   const element = document.getElementById(partElement).firstElementChild
+    //   gsap.to(element,{
+    //     opacity:0,
+    //     display:'none',
+    //     ease:'none',
+    //     duration:0
+    //   })
+    //   disected = false
+    //   const clickHandler = eventFunctions.get(partElement)
+    //   element.removeEventListener('dblclick',clickHandler)
+    // }
 
     
 
@@ -392,13 +409,13 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      onToggle:(self)=>{
-        if(self.isActive){
-          active('helmet')
-        }else{
-          inactive('helmet')
-        }
-      },
+      // onToggle:(self)=>{
+      //   if(self.isActive){
+      //     active('helmet')
+      //   }else{
+      //     inactive('helmet')
+      //   }
+      // },
       onEnter:()=>{
         enter(helmet,"helmet",helmet_rotataion,2,10)
       },
@@ -430,13 +447,13 @@ export function setupAnimation(){
       fastScrollEnd: true,
       preventOverlaps: true,
       // markers:true,
-      onToggle:(self)=>{
-        if(self.isActive){
-          active('leftArm')
-        }else{
-          inactive('leftArm')
-        }
-      },
+      // onToggle:(self)=>{
+      //   if(self.isActive){
+      //     active('leftArm')
+      //   }else{
+      //     inactive('leftArm')
+      //   }
+      // },
       onEnter:()=>{
         enter(leftArm,"arm_left",leftArm_rotation,3,10)
       },
@@ -466,22 +483,22 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      onToggle:(self)=>{
-        if(self.isActive){
-          active('rightArm')
-        }else{
-          inactive('rightArm')
-        }
-      },
+      // onToggle:(self)=>{
+      //   if(self.isActive){
+      //     active('rightArm')
+      //   }else{
+      //     inactive('rightArm')
+      //   }
+      // },
       // markers:true,
       onEnter:()=>{
-        enter(rightArm,"arm_right",rightArm_rotation,3,10)
+        enter(rightArm,"arm_right",rightArm_rotation,3.5,10)
       },
       onLeave:()=>{
         leave(rightArm,"arm_right",rightArm_rotation)
       },
       onEnterBack:()=>{
-        enter(rightArm,"arm_right",rightArm_rotation,3,10)
+        enter(rightArm,"arm_right",rightArm_rotation,3.5,10)
       },
       onLeaveBack:()=>{
         leave(rightArm,"arm_right",rightArm_rotation)
@@ -503,13 +520,13 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      onToggle:(self)=>{
-        if(self.isActive){
-          active('leftleg')
-        }else{
-          inactive('leftleg')
-        }
-      },
+      // onToggle:(self)=>{
+      //   if(self.isActive){
+      //     active('leftleg')
+      //   }else{
+      //     inactive('leftleg')
+      //   }
+      // },
       // markers:true,
       onEnter:()=>{
         enter(leftLeg,"leg_left",leftLeg_rotation,3,12)
@@ -540,14 +557,14 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      onToggle:(self)=>{
+      // onToggle:(self)=>{
 
-        if(self.isActive){
-          active('rightleg')
-        }else{
-          inactive('rightleg')
-        }
-      },
+      //   if(self.isActive){
+      //     active('rightleg')
+      //   }else{
+      //     inactive('rightleg')
+      //   }
+      // },
       // markers:true,
       onEnter:()=>{
         enter(rightLeg,"leg_right",rightLeg_rotation,3,12)
@@ -578,13 +595,13 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      onToggle:(self)=>{
-        if(self.isActive){
-          active('torso')
-        }else{
-          inactive('torso')
-        }
-      },
+      // onToggle:(self)=>{
+      //   if(self.isActive){
+      //     active('torso')
+      //   }else{
+      //     inactive('torso')
+      //   }
+      // },
       // markers:true,
       onEnter:()=>{
         enter(torso,"torso",torso_rotation,3,15)
@@ -607,6 +624,7 @@ export function setupAnimation(){
       fastScrollEnd: true,
       preventOverlaps: true,
       onEnter:()=>{
+        switchHeader(document.querySelector(`.fixed-header[data-section="theEnd"]`))
         gsap.to(document.getElementById("theEnd").firstElementChild,{
           opacity:1,
           display:'flex',
@@ -614,6 +632,7 @@ export function setupAnimation(){
         })
       },
       onLeaveBack:()=>{
+        switchHeader(document.querySelector(`.fixed-header[data-section="theEnd"]`))
         gsap.to(document.getElementById('theEnd').firstElementChild,{
           opacity:0,
           display:'none',
@@ -622,22 +641,4 @@ export function setupAnimation(){
         })
       }
     })
-
-
-  //   const sectionsToPin = gsap.utils.toArray([
-  //     "#studio1", "#studio2", "#helmet", "#leftArm", "#rightArm", 
-  //     "#leftleg", "#rightleg", "#trso", "#idk"
-  // ]);
-  
-  // // Loop over each section and create a ScrollTrigger for it
-  // sectionsToPin.forEach(section => {
-  //     ScrollTrigger.create({
-  //         trigger: section, // The section itself is the trigger
-  //         pin: section.querySelector("div"), // The element to pin is the div INSIDE the section
-  //         start: "top top", // Pin when the top of the section hits the top of the viewport
-  //         end: "bottom top", // Unpin when the bottom of the section hits the top of the viewport
-  //         pinSpacing: false, // Prevents GSAP from adding extra space, letting the next section slide over it
-  //         markers: true // Add markers for debugging. REMOVE THIS for production.
-  //     });
-  // });
 }

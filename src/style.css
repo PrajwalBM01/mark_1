@@ -19,21 +19,51 @@
     font-style: normal;
   }
 
-.parts {
+  .fixed-header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
     height: 100vh;
-    /* border: 2px solid blue; */
+    pointer-events: none;
+    display: none;
+    opacity: 0;
+}
+
+.fixed-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    opacity: 0;
+    border: 5px solid black;
+    pointer-events: auto;
+}
+
+.fixed-header.active {
+    opacity: 1;
+}
+
+.parts {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: black;
+    border: 5px solid green;
+    position: relative;
 }
 
 .parts#theEnd {
     height: 150vh;
-}
-
-.partsInfo {
-    height: 100vh;
-    width: 100%;
-    border: 5px solid red;
-    position: fixed;
-    top: 0;
-    display:none;
-    opacity: 0;
 }

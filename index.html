@@ -23,7 +23,7 @@
 
     <!--main dom--> <!--dont forget hidden-->
     <div id="screen" class="h-full w-full "> 
-      <section id="section1" class=" h-[200vh] text-white flex justify-center items-start "> 
+      <section id="section1" class=" h-[200vh] border border-red-700 text-white flex justify-center items-start "> 
         <div id="sns" class="h-screen w-full flex justify-center items-center font-orbiton">
           <div class=" flex flex-col gap-5 items-end fixed">
             <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-8xl text-blueprintGray">welcome to stark industry</h1>
@@ -42,45 +42,44 @@
       </section>
 
 
+      <div class="fixed-header-container">
+        <div class="fixed-header" data-section="allParts">Section 1 all parts</div>
+        <div class="fixed-header" data-section="helmet">Section 2 head</div>
+        <div class="fixed-header" data-section="arm_left">Section 3 left arm</div>
+        <div class="fixed-header" data-section="arm_right">Section 4 rightarm</div>
+        <div class="fixed-header" data-section="leg_left">Section 5 left leg</div>
+        <div class="fixed-header" data-section="leg_right">Section 6 right leg</div>
+        <div class="fixed-header" data-section="torso">Section 7 torso</div>
+        <div class="fixed-header" data-section="theEnd">Section 8 back to all parts</div>
+      </div>
+
+
       <div id="wholeTimeline" class="relative border-green-500">
-        <!-- <div id="timelineScroll" class="z-5  h-screen fixed top-0 w-screen flex items-center opacity-0">
-          <div class="backdrop-blur-lg bg-black/5 p-6  w-15 h-100 rounded-r-2xl ">
-            <div id="scroll-bar" class=" h-full w-full flex flex-col items-center justify-evenly relative">
-              <div class="h-5 border w-10 z-2 absolute"></div>
-              <a href="#allParts" class=" scroll-link border-b h-full w-full"></a>
-              <a href="#helmet" class="scroll-link border-b h-full w-full"></a>
-              <a href="#leftArm" class=" scroll-link border-b h-full w-full"></a>
-              <a href="#rightArm" class=" scroll-link border-b h-full w-full"></a>
-              <a href="#leftleg" class=" scroll-link border-b h-full w-full"></a>
-              <a href="#rightleg" class=" scroll-link border-b h-full w-full"></a>
-              <a href="#torso" class=" scroll-link border-b h-full w-full"></a>
-            </div>
-          </div>
-        </div> -->
-        <div id="allParts" class="parts">
-          <div class="border border-red-400 h-full w-full fixed top-0 hidden">body parts</div>
+        <div id="allParts" class="parts" data-section="allParts">
+          allParts
         </div>
-        <div id="helmet" class="parts">
-          <div class="partsInfo">helmet parts</div>
+        <div id="helmet" class="parts" data-section="helmet">
+  helmet
         </div>
-        <div id="leftArm" class="parts">
-          <div class="partsInfo">leftArm parts</div>
+        <div id="leftArm" class="parts" data-section="arm_left">
+    leftArm
         </div>
-        <div id="rightArm" class="parts">
-          <div class="partsInfo">rightArm parts</div>
+        <div id="rightArm" class="parts" data-section="arm_right" >
+    rightArm      
         </div>
-        <div id="leftleg" class="parts">
-          <div class="partsInfo">leftLeg parts</div>
+        <div id="leftleg" class="parts" data-section="leg_left">
+    leftleg
         </div>
-        <div id="rightleg" class="parts">
-          <div class="partsInfo">reightLeg parts</div>
+        <div id="rightleg" class="parts" data-section="leg_right">
+  rightleg
         </div>
-        <div id="torso" class="parts">
-          <div class="partsInfo">torso parts</div>
+        <div id="torso" class="parts" data-section="torso">
+  torso
         </div>
-        <div id="theEnd" class="parts">
-          <div class="partsInfo">the end</div>
+        <div id="theEnd" class="parts" data-section="theEnd">
+    theEnd       
         </div>
+          
       </div>
       
     </div>
