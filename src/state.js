@@ -10,3 +10,5 @@ export const state = {
     position:{},
     roatatio:{},
 }
+
+

@@ -24,34 +24,34 @@ export function setupAnimation(){
 
   const camera = state.camera
   const parts = state.ironman_model.children
-  // const mixer = new THREE.AnimationMixer(state.ironman_model)
-  // let disected = false
+  const mixer = new THREE.AnimationMixer(state.ironman_model)
+  let disected = false
 
-  // const actionClips = state.animation.reduce((accumulator,animation)=>{
-  //   const action = mixer.clipAction(animation)
-  //   action.play()
-  //   action.paused = true
+  const actionClips = state.animation.reduce((accumulator,animation)=>{
+    const action = mixer.clipAction(animation)
+    action.play()
+    action.paused = true
 
-  //   if(animation.name.includes("helmet")){
-  //     accumulator.helmet.push(action) 
-  //   }
-  //   if(animation.name.includes("arm_left")){
-  //     accumulator.leftArm.push(action)
-  //   }
-  //   if(animation.name.includes("arm_right")){
-  //     accumulator.rightArm.push(action)
-  //   }
-  //   if(animation.name.includes("leg_left")){
-  //     accumulator.leftleg.push(action)
-  //   }
-  //   if(animation.name.includes("leg_right")){
-  //     accumulator.rightleg.push(action)
-  //   }
-  //   if(animation.name.includes("torso")){
-  //     accumulator.torso.push(action)
-  //   }
-  //   return accumulator
-  // },{helmet:[],leftArm:[],rightArm:[],leftleg:[],rightleg:[],torso:[]})
+    if(animation.name.includes("helmet")){
+      accumulator.helmet.push(action) 
+    }
+    if(animation.name.includes("arm_left")){
+      accumulator.leftArm.push(action)
+    }
+    if(animation.name.includes("arm_right")){
+      accumulator.rightArm.push(action)
+    }
+    if(animation.name.includes("leg_left")){
+      accumulator.leftleg.push(action)
+    }
+    if(animation.name.includes("leg_right")){
+      accumulator.rightleg.push(action)
+    }
+    if(animation.name.includes("torso")){
+      accumulator.torso.push(action)
+    }
+    return accumulator
+  },{helmet:[],leftArm:[],rightArm:[],leftleg:[],rightleg:[],torso:[]})
 
   //finltering the parts
   const filtered_parts = state.ironman_parts.filter(part=>{
@@ -224,17 +224,51 @@ export function setupAnimation(){
 
 
     let currentActiveHeader = null;
+    const eventFunctions = new Map();
 
-    const switchHeader = (newHeaderElement)=>{
+
+    const switchHeader = (newHeaderElement,partName)=>{
       document.querySelectorAll('.fixed-header').forEach(header=>{
         header.classList.remove('active');
+        header.style.pointerEvents = 'none'
       });
 
       if(newHeaderElement){
         newHeaderElement.classList.add('active');
+        newHeaderElement.style.pointerEvents = 'auto'
         currentActiveHeader = newHeaderElement
+        // console.log(currentActiveHeader)
       }
+
+      if(partName){
+        if(eventFunctions.has(partName)){
+          console.log('yes', partName)
+        }else{
+          const actions = actionClips[partName]
+          const clickHandler = ()=>{
+            console.log('clicked',partName)
+            disected = !disected;
+            actions.forEach(action=>{
+              action.paused = false
+            })
+            gsap.to(actions,{
+              time:(index,target)=> disected? (target.getClip().duration):(0),
+              ease:'expo.inOut',
+              stagger:0.02,
+              onUpdate:()=>{
+                mixer.update(0)
+              }
+            })
+          }
+          eventFunctions.set(partName,clickHandler)
+          newHeaderElement.addEventListener('dblclick',clickHandler)
+          console.log(eventFunctions)
+        }
+    
+      }
+    
     }
+
     //the whole timline thing
     ScrollTrigger.create({
       trigger:'#wholeTimeline',
@@ -304,8 +338,10 @@ export function setupAnimation(){
       part_rotation,
       y,
       z,
+      animation_name
     )=>{
-      switchHeader(document.querySelector(`.fixed-header[data-section="${partname}"]`))
+      const currentElement = document.querySelector(`.fixed-header[data-section="${partname}"]`)
+      switchHeader(currentElement,animation_name)
       gsap.to(camera.position,{
         x:part.position.x,
         y:part.position.y + y,
@@ -326,6 +362,7 @@ export function setupAnimation(){
       part,
       partname,
       part_rotation,
+      animation_part
     )=>{
       gsap.to(camera.position,{
         x:-0.1,
@@ -343,7 +380,19 @@ export function setupAnimation(){
       gsap.to(part.rotation,{
         y:0,
       })
-      
+      disected = false
+      actionClips[animation_part].forEach(action=>{
+        console.log(action)
+        action.paused = true
+      })
+      gsap.to(actionClips[animation_part],{
+        time:(index,target)=> 0,
+        ease:'expo.inOut',
+        stagger:0.02,
+        onUpdate:()=>{
+          mixer.update(0)
+        }
+      })
     }
 
     // const eventFunctions = new Map()
@@ -417,16 +466,16 @@ export function setupAnimation(){
       //   }
       // },
       onEnter:()=>{
-        enter(helmet,"helmet",helmet_rotataion,2,10)
+        enter(helmet,"helmet",helmet_rotataion,2,10,'helmet')
       },
       onLeave:()=>{
-        leave(helmet,"helmet",helmet_rotataion)
+        leave(helmet,"helmet",helmet_rotataion,'helmet')
       },
       onEnterBack:()=>{
-        enter(helmet,"helmet",helmet_rotataion,2,10)
+        enter(helmet,"helmet",helmet_rotataion,2,10,'helmet')
       },
       onLeaveBack:()=>{
-        leave(helmet,"helmet",helmet_rotataion)
+        leave(helmet,"helmet",helmet_rotataion,'helmet')
       }
     })
 
@@ -449,22 +498,22 @@ export function setupAnimation(){
       // markers:true,
       // onToggle:(self)=>{
       //   if(self.isActive){
-      //     active('leftArm')
+          // active('leftArm')
       //   }else{
       //     inactive('leftArm')
       //   }
       // },
       onEnter:()=>{
-        enter(leftArm,"arm_left",leftArm_rotation,3,10)
+        enter(leftArm,"arm_left",leftArm_rotation,3,10,'leftArm')
       },
       onLeave:()=>{
-        leave(leftArm,"arm_left",leftArm_rotation)
+        leave(leftArm,"arm_left",leftArm_rotation,'helmet')
       },
       onEnterBack:()=>{
-        enter(leftArm,"arm_left",leftArm_rotation,3,10)
+        enter(leftArm,"arm_left",leftArm_rotation,3,10,'leftArm')
       },
       onLeaveBack:()=>{
-        leave(leftArm,"arm_left",leftArm_rotation)
+        leave(leftArm,"arm_left",leftArm_rotation,'helmet')
       }
     })
 
@@ -492,16 +541,16 @@ export function setupAnimation(){
       // },
       // markers:true,
       onEnter:()=>{
-        enter(rightArm,"arm_right",rightArm_rotation,3.5,10)
+        enter(rightArm,"arm_right",rightArm_rotation,3.5,10,'rightArm')
       },
       onLeave:()=>{
-        leave(rightArm,"arm_right",rightArm_rotation)
+        leave(rightArm,"arm_right",rightArm_rotation,'rightArm')
       },
       onEnterBack:()=>{
-        enter(rightArm,"arm_right",rightArm_rotation,3.5,10)
+        enter(rightArm,"arm_right",rightArm_rotation,3.5,10,'rightArm')
       },
       onLeaveBack:()=>{
-        leave(rightArm,"arm_right",rightArm_rotation)
+        leave(rightArm,"arm_right",rightArm_rotation,'rightArm')
       }
     })
 
@@ -529,16 +578,16 @@ export function setupAnimation(){
       // },
       // markers:true,
       onEnter:()=>{
-        enter(leftLeg,"leg_left",leftLeg_rotation,3,12)
+        enter(leftLeg,"leg_left",leftLeg_rotation,3,12,'leftleg')
       },
       onLeave:()=>{
-        leave(leftLeg,"leg_left",leftLeg_rotation)
+        leave(leftLeg,"leg_left",leftLeg_rotation,'leftleg')
       },
       onEnterBack:()=>{
-        enter(leftLeg,"leg_left",leftLeg_rotation,3,12)
+        enter(leftLeg,"leg_left",leftLeg_rotation,3,12,'leftleg')
       },
       onLeaveBack:()=>{
-        leave(leftLeg,"leg_left",leftLeg_rotation)
+        leave(leftLeg,"leg_left",leftLeg_rotation,'leftleg')
       }
     })
 
@@ -567,16 +616,16 @@ export function setupAnimation(){
       // },
       // markers:true,
       onEnter:()=>{
-        enter(rightLeg,"leg_right",rightLeg_rotation,3,12)
+        enter(rightLeg,"leg_right",rightLeg_rotation,3,12,'rightleg')
       },
       onLeave:()=>{
-        leave(rightLeg,"leg_right",rightLeg_rotation)
+        leave(rightLeg,"leg_right",rightLeg_rotation,'rightleg')
       },
       onEnterBack:()=>{
-        enter(rightLeg,"leg_right",rightLeg_rotation,3,12)
+        enter(rightLeg,"leg_right",rightLeg_rotation,3,12,'rightleg')
       },
       onLeaveBack:()=>{
-        leave(rightLeg,"leg_right",rightLeg_rotation)
+        leave(rightLeg,"leg_right",rightLeg_rotation,'rightleg')
       }
     })
     
@@ -604,16 +653,16 @@ export function setupAnimation(){
       // },
       // markers:true,
       onEnter:()=>{
-        enter(torso,"torso",torso_rotation,3,15)
+        enter(torso,"torso",torso_rotation,3,15,'torso')
       },
       onLeave:()=>{
-        leave(torso,"torso",torso_rotation)
+        leave(torso,"torso",torso_rotation,'torso')
       },
       onEnterBack:()=>{
-        enter(torso,"torso",torso_rotation,3,15)
+        enter(torso,"torso",torso_rotation,3,15,'torso')
       },
       onLeaveBack:()=>{
-        leave(torso,"torso",torso_rotation)
+        leave(torso,"torso",torso_rotation,'torso')
       }
     })
 
@@ -625,20 +674,11 @@ export function setupAnimation(){
       preventOverlaps: true,
       onEnter:()=>{
         switchHeader(document.querySelector(`.fixed-header[data-section="theEnd"]`))
-        gsap.to(document.getElementById("theEnd").firstElementChild,{
-          opacity:1,
-          display:'flex',
-          ease:'power1.in'
-        })
+  
       },
       onLeaveBack:()=>{
         switchHeader(document.querySelector(`.fixed-header[data-section="theEnd"]`))
-        gsap.to(document.getElementById('theEnd').firstElementChild,{
-          opacity:0,
-          display:'none',
-          ease:'none',
-          duration:0
-        })
+
       }
     })
 }

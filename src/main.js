@@ -312,10 +312,18 @@ toggleOff.addEventListener('click',()=>{
 //  }))
 // })
 
-window.onbeforeunload = () => {
-  window.scrollTo(0, 0);
-};
+// window.onbeforeunload = () => {
+//   window.scrollTo(0, 0);
+// };
 
-window.addEventListener('load', () => {
-  window.scrollTo(0, 0);
-});
+// window.addEventListener('load', () => {
+//   window.scrollTo(0, 0);
+// });
+
+// document.querySelectorAll('.fixed-header').forEach(header=>{
+//   header.addEventListener('dblclick',()=>{
+//     console.log('clikced',header.dataset.section)
+//   })
+//   console.log(header)
+
+// });
