@@ -9,6 +9,7 @@ export const state = {
     animation:null,
     position:{},
     roatatio:{},
+    extraZ:(window.innerWidth < 640)? 5: 0
 }
 
 

@@ -169,6 +169,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 //resize
 window.addEventListener('resize',()=>{
+  state.extraZ = (window.innerWidth < 640)? 5: 0
   renderer.setSize(window.innerWidth,window.innerHeight)
   active_cam.aspect = window.innerWidth/window.innerHeight
   active_cam.updateProjectionMatrix()
@@ -256,11 +257,6 @@ state.backdropMaterial = backgroundMaterial
 
 
 
-
-
-
-
-
 const controls = new OrbitControls(scene_cam,renderer.domElement)
 const animate = () =>{
   window.requestAnimationFrame(animate)
@@ -269,7 +265,6 @@ const animate = () =>{
 }
 
 animate()
-
 
 
 

@@ -22,6 +22,7 @@ gsap.registerPlugin(SplitText)
 
 export function setupAnimation(){
 
+  console.log(state.extraZ)
   const camera = state.camera
   const parts = state.ironman_model.children
   const mixer = new THREE.AnimationMixer(state.ironman_model)
@@ -237,16 +238,13 @@ export function setupAnimation(){
         newHeaderElement.classList.add('active');
         newHeaderElement.style.pointerEvents = 'auto'
         currentActiveHeader = newHeaderElement
-        // console.log(currentActiveHeader)
+
       }
 
       if(partName){
-        if(eventFunctions.has(partName)){
-          console.log('yes', partName)
-        }else{
+        if(!eventFunctions.has(partName)){
           const actions = actionClips[partName]
           const clickHandler = ()=>{
-            console.log('clicked',partName)
             disected = !disected;
             actions.forEach(action=>{
               action.paused = false
@@ -261,8 +259,7 @@ export function setupAnimation(){
             })
           }
           eventFunctions.set(partName,clickHandler)
-          newHeaderElement.addEventListener('dblclick',clickHandler)
-          console.log(eventFunctions)
+          newHeaderElement.addEventListener('click',clickHandler)
         }
     
       }
@@ -345,7 +342,7 @@ export function setupAnimation(){
       gsap.to(camera.position,{
         x:part.position.x,
         y:part.position.y + y,
-        z:part.position.z +z ,
+        z:part.position.z +z + state.extraZ ,
         ease:"power1.in"
       })
       parts.forEach(each=>{
@@ -382,7 +379,6 @@ export function setupAnimation(){
       })
       disected = false
       actionClips[animation_part].forEach(action=>{
-        console.log(action)
         action.paused = true
       })
       gsap.to(actionClips[animation_part],{
@@ -394,54 +390,6 @@ export function setupAnimation(){
         }
       })
     }
-
-    // const eventFunctions = new Map()
-
-    // const active = (partElement)=>{
-    //   const element = document.getElementById(partElement).firstElementChild
-    //   gsap.to(element,{
-    //     opacity:1,
-    //     display:'flex',
-    //     ease:'power1.in'
-    //   })
-    //   console.log(actionClips[partElement])
-    //   const actions = actionClips[partElement]
-    //   const clickHandler = ()=>{
-    //     console.log('clicked', partElement)
-    //     disected = !disected
-    //     console.log(disected)
-    //     actions.forEach(action=>{
-    //       action.paused = false
-    //       // action.time = disected? (action.getClip().duration) : (0)
-    //     })
-    //     gsap.to(actions,{
-    //       time:(index,target)=> disected? (target.getClip().duration):(0),
-    //       ease:'expo.inOut',
-    //       stagger:0.02,
-    //       onUpdate:()=>{
-    //         mixer.update(0)
-    //       }
-    //     })
-    //   }
-    //   eventFunctions.set(partElement,clickHandler)
-    //   element.addEventListener('dblclick',clickHandler)
-    // }
-
-    // const inactive = (partElement)=>{
-    //   const element = document.getElementById(partElement).firstElementChild
-    //   gsap.to(element,{
-    //     opacity:0,
-    //     display:'none',
-    //     ease:'none',
-    //     duration:0
-    //   })
-    //   disected = false
-    //   const clickHandler = eventFunctions.get(partElement)
-    //   element.removeEventListener('dblclick',clickHandler)
-    // }
-
-    
-
 
     //helmet animation
     const helmet = parts[0]
@@ -458,13 +406,6 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      // onToggle:(self)=>{
-      //   if(self.isActive){
-      //     active('helmet')
-      //   }else{
-      //     inactive('helmet')
-      //   }
-      // },
       onEnter:()=>{
         enter(helmet,"helmet",helmet_rotataion,2,10,'helmet')
       },
@@ -495,14 +436,6 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      // markers:true,
-      // onToggle:(self)=>{
-      //   if(self.isActive){
-          // active('leftArm')
-      //   }else{
-      //     inactive('leftArm')
-      //   }
-      // },
       onEnter:()=>{
         enter(leftArm,"arm_left",leftArm_rotation,3,10,'leftArm')
       },
@@ -532,14 +465,6 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      // onToggle:(self)=>{
-      //   if(self.isActive){
-      //     active('rightArm')
-      //   }else{
-      //     inactive('rightArm')
-      //   }
-      // },
-      // markers:true,
       onEnter:()=>{
         enter(rightArm,"arm_right",rightArm_rotation,3.5,10,'rightArm')
       },
@@ -569,14 +494,6 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      // onToggle:(self)=>{
-      //   if(self.isActive){
-      //     active('leftleg')
-      //   }else{
-      //     inactive('leftleg')
-      //   }
-      // },
-      // markers:true,
       onEnter:()=>{
         enter(leftLeg,"leg_left",leftLeg_rotation,3,12,'leftleg')
       },
@@ -606,15 +523,6 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      // onToggle:(self)=>{
-
-      //   if(self.isActive){
-      //     active('rightleg')
-      //   }else{
-      //     inactive('rightleg')
-      //   }
-      // },
-      // markers:true,
       onEnter:()=>{
         enter(rightLeg,"leg_right",rightLeg_rotation,3,12,'rightleg')
       },
@@ -644,14 +552,6 @@ export function setupAnimation(){
       end:"bottom top",
       fastScrollEnd: true,
       preventOverlaps: true,
-      // onToggle:(self)=>{
-      //   if(self.isActive){
-      //     active('torso')
-      //   }else{
-      //     inactive('torso')
-      //   }
-      // },
-      // markers:true,
       onEnter:()=>{
         enter(torso,"torso",torso_rotation,3,15,'torso')
       },
