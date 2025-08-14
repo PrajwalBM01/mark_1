@@ -4,8 +4,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
 import * as THREE from 'three'
+import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(Draggable);
+
 const lenis = new Lenis({
   smoothWheel: true 
 })
@@ -22,7 +25,6 @@ gsap.registerPlugin(SplitText)
 
 export function setupAnimation(){
 
-  console.log(state.extraZ)
   const camera = state.camera
   const parts = state.ironman_model.children
   const mixer = new THREE.AnimationMixer(state.ironman_model)
@@ -83,6 +85,36 @@ export function setupAnimation(){
       }},
     )
 
+    let briefSplit = SplitText.create('#mark1',{type:'words',wordsClass:'brief-word'})
+
+    ScrollTrigger.create({
+      trigger:'#studio1',
+      start:"top top",
+      end:'center top',
+      // markers:'true',
+      // onEnter:{
+
+      // }
+      onToggle:(self)=>{
+        const brief = document.getElementById('studio1').firstElementChild
+        if(self.isActive){
+          brief.style.display = 'flex';
+          gsap.to(briefSplit.words,{
+            opacity:1,
+            duration:1,
+            stagger:0.05,
+            translateY:0
+          })
+        }else{
+          brief.style.display = 'none'
+          gsap.to(briefSplit.words,{
+            opacity:0,
+            translateY:100
+          })
+        }
+      }
+    })
+
   
     //mute words animation
     const headingTl = gsap.timeline({
@@ -118,7 +150,7 @@ export function setupAnimation(){
         start: 'top top',
         end:'bottom top',
         scrub:true,
-        markers:true
+        // markers:true
       }
     })
 
@@ -267,11 +299,50 @@ export function setupAnimation(){
     }
 
     //the whole timline thing
+  //   Draggable.create("#progressPointer",{
+  //     type:'y',
+  //     bounds: document.getElementById('navbar'),
+  //     // inertia:true,
+  //     onDrag:function(){
+  //       // this.curre
+  //       const boundsRect = document.getElementById('navbar').getBoundingClientRect();
+  //       const pointerRect = this.target.getBoundingClientRect()
+  //       console.log(boundsRect,pointerRect)
+  //       const maxY = boundsRect.height - pointerRect.height;
+  //       console.log(maxY)
+  //       const y = Math.max(0, Math.min(this.y, maxY));
+  //       const ratio = maxY > 0 ? y / maxY : 0;
+  //       const maxScroll =
+  // document.documentElement.scrollHeight - window.innerHeight;
+  // const scrollY = ratio * Math.max(0, maxScroll);
+  //       console.log(this.y)
+  //       gsap.to(document.getElementById('navbar'),{
+  //         scrollTo:{
+  //           y:scrollY
+  //         }
+  //       })
+  //     }
+  //   });
+
+    //progress 
+    ScrollTrigger.create({
+      trigger:'#wholeTimeline',
+      start:'top top',
+      end:"bottom top",
+      markers:true,
+      onUpdate:(self)=>{
+        console.log(self.progress)
+        gsap.to(document.getElementById('progressPointer'),{
+          translateY: `${(self.progress * 400)}px`
+        })
+      }
+    })
+
     ScrollTrigger.create({
       trigger:'#wholeTimeline',
       start:'top top',
       end:'bottom top',
-      markers:true,
+      // markers:true,
       onToggle:(self)=>{
         if(self.isActive){
           gsap.to(document.getElementsByClassName('fixed-header-container'),{

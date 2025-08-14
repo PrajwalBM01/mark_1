@@ -197,7 +197,7 @@ loader.load(
     console.log(ironman)
     state.ironman_model = ironman
     ironman.position.y = 1
-    ironman.position.z = 1
+    // ironman.position.z = 1
     ironman.traverse(child=>{
       child.castShadow = true
       child.receiveShadow = true
@@ -269,25 +269,25 @@ animate()
 
 
 // javascript
-const toggleON = document.getElementById('turnon')
-const toggleOff = document.getElementById('turnoff')
-const metalAudio = document.getElementById('metal')
-toggleON.addEventListener('click',()=>{
-  metalAudio.muted = false;
-  metalAudio.play()
-  toggleON.classList.replace('text-blueprintGray','text-red-900')
-  if(toggleOff.classList.contains('text-red-900')){
-    toggleOff.classList.replace('text-red-900','text-blueprintGray')
-  }
-})
+// const toggleON = document.getElementById('turnon')
+// const toggleOff = document.getElementById('turnoff')
+// const metalAudio = document.getElementById('metal')
+// toggleON.addEventListener('click',()=>{
+//   metalAudio.muted = false;
+//   metalAudio.play()
+//   toggleON.classList.replace('text-blueprintGray','text-red-900')
+//   if(toggleOff.classList.contains('text-red-900')){
+//     toggleOff.classList.replace('text-red-900','text-blueprintGray')
+//   }
+// })
 
-toggleOff.addEventListener('click',()=>{
-  metalAudio.muted = true;
-  toggleOff.classList.replace('text-blueprintGray','text-red-900')
-  if(toggleON.classList.contains('text-red-900')){
-    toggleON.classList.replace('text-red-900','text-blueprintGray')
-  }
-})
+// toggleOff.addEventListener('click',()=>{
+//   metalAudio.muted = true;
+//   toggleOff.classList.replace('text-blueprintGray','text-red-900')
+//   if(toggleON.classList.contains('text-red-900')){
+//     toggleON.classList.replace('text-red-900','text-blueprintGray')
+//   }
+// })
 
 // const scrollLinks = document.querySelectorAll('.scroll-link');
 
@@ -322,3 +322,21 @@ toggleOff.addEventListener('click',()=>{
 //   console.log(header)
 
 // });
+
+
+// const navbar = document.getElementById('navbar')
+// console.log('Navbar element:', navbar)
+
+// // Get and log the bounding rectangle
+// const navbarRect = navbar.getBoundingClientRect()
+// console.log('Navbar getBoundingClientRect():', navbarRect)
+
+// // Log the dimensions and position
+// console.log('Navbar dimensions:', {
+//   width: navbarRect.width,
+//   height: navbarRect.height,
+//   top: navbarRect.top,
+//   left: navbarRect.left,
+//   right: navbarRect.right,
+//   bottom: navbarRect.bottom
+// })

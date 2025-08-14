@@ -23,34 +23,95 @@
 
     <!--main dom--> <!--dont forget hidden-->
     <div id="screen" class="h-full w-full "> 
-      <section id="section1" class=" h-[200vh]  border-red-700 text-white flex justify-center items-start "> 
-        <div id="sns" class="h-screen w-full flex justify-center items-center font-orbiton">
-          <div class=" flex flex-col gap-5 items-end fixed">
-            <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-8xl text-blueprintGray">welcome to stark industry</h1>
-            <div class="flex gap-5 text-sm md:text-xl xl:text-2xl">
-              <p class="text-red-900">would you like to have audio?</p>
-              <button id="turnon" class="text-blueprintGray hover:cursor-pointer hover:text-red-900 hover:border-b transition-all duration-150">YES</button>
-              <button id="turnoff" class="text-blueprintGray hover:cursor-pointer hover:text-red-900 hover:border-b transition-all duration-150">NO</button>
-            </div>
+      <section id="section1" class=" h-[200vh] border-red-700 text-white flex justify-center items-start "> 
+        <div id="sns" class="h-screen border-white w-full flex justify-center items-center font-orbiton">
+          <div class="fixed">
+           <h1 class="text-sm sm:text-3xl md:text-5xl lg:text-7xl 2xl:text-8xl">STARK INDUSTRIES R&D</h1>
+           <p class="font-project text-red-900 text-xs sm:text-sm md:text-xl lg:text-3xl xl:text-5xl">Project 86-B 'Escape'</p>
           </div>
         </div>
       </section>
 
 
       <section id="studio1" class=" text-white h-screen">
-        <div class="border border-amber-300 h-full hidden">tony start was able to build this in a cave</div>
+        <div id="mark1" class="brief justify-center items-center p-5 sm:p-10 lg:p-20 xl:p-50">
+          <p class="text-wrap text-center text-xs sm:text-sm md:text-xl xl:text-3xl "> The Mark I is a brute. It's a walking tank forged from scavenged missile parts and sheer, unadulterated will. Every plate of steel, every noisy hydraulic actuator, and every exposed wire tells a story of survival. It wasn't designed to be elegant, it was designed to be a one-way ticket out of hell, a bulletproof sledgehammer to knock down the door. This isn't just a suit, it's the raw, unfiltered idea that a man could build his own salvation. This is where Iron Man truly began.</p>
+        </div>
       </section>
 
 
       <div class="fixed-header-container">
-        <div class="fixed-header" data-section="allParts">Section 1 all parts</div>
+        <div class=" flex justify-center items-center">
+          <div id="navbar" class="nav border-b-2 border-l-3 h-100 border-black w-6 flex flex-col relative">
+            <div id="progressPointer" class="bg-red-700 absolute w-full h-1 z-1 rounded-r-full"></div>
+            <div id="ghostPointer" class="bg-black absolute w-full h-1 z-1 rounded-r-full opacity-0"></div>
+            <div class=" absolute h-full w-2"
+            style="background-image: linear-gradient(to bottom, rgb(97, 97, 97) 1px, #00000000 1px);
+            background-size: 100% calc((100%/7)/8);"></div>
+            <a href="#allParts"></a>
+            <a href="#helmet"></a>
+            <a href="#leftArm"></a>
+            <a href="#rightArm"></a>
+            <a href="#leftleg"></a>
+            <a href="#rightleg"></a>
+            <a href="#torso"></a>
+          </div> 
+        </div>
+
+        <div class="fixed-header" data-section="allParts">
+          <div class="h-full w-1/2 flex flex-col p-10">
+            <div class=" h-1/2">
+              <div class="font-nippo font-medium text-xs md:text-sm lg:text-xl xl:text-2xl">
+                <h1>Project Designation: Project 86-B 'Escape'</h1>
+                <h1>Operational Codename: 'THE WALKING TANK'</h1>
+                <h1>Status: Archived / Proof Of Concept</h1>
+              </div>
+            </div>
+            <div class="h-1/2 flex justify-start items-end md:justify-center">
+              <div class="font-extralight font-nippo">
+                <img src="src/assets/arcReactor.png" alt="" class="h-50 xl:h-70">
+                <h1 class="font-medium">ARC REACTOR 01</h1>
+                <p class="text-xs xl:text-sm w-50 md:w-70 xl:w-100 text-stone-700">This self-sustaining cold fusion device, utilizing a palladium isotope core, generates a peak output of approximately 3 gigajoules per second.</p>
+              </div>
+            </div>
+          </div>
+          <div class="h-full w-1/2 flex justify-end">
+            <div class=" w-1/2 pr-2 xl:w-md xl:pr-10 flex justify-center items-center">
+            <div class="  w-full flex justify-center items-center font-nippo">
+              <div class=" flex flex-col gap-5">
+                <div class="">
+                  <h1 class="text-sm font-medium lg:text-xl xl:text-2xl">Power source</h1>
+                  <p class="text-xs text-wrap font-extralight text-stone-700 xl:text-sm ">All system power originates from the chest-mounted Arc Reactor. Its energy is routed to a dorsal power distribution bus, which then supplies the required voltage and amperage to all limb actuators and weapon systems via unshielded, external conduits.</p>
+                </div>
+                <div class="border p-2 backdrop-blur-2xl lg:text-xl xl:text-2xl">
+                  <h1 class="font-medium text-sm">Stats</h1>
+                  <div class=" border-t grid grid-cols-2 gap-6 grid-rows-5 text-xs  xl:text-sm font-light text-stone-700">
+                    <div>Designation:</div>
+                    <div>MARK l</div>
+                    <div>Operator:</div>
+                    <div>Anthony E. Stark</div>
+                    <div>Total Mass:</div>
+                    <div>~680kg(~1,500 lbs)</div>
+                    <div>Height:</div>
+                    <div>1.98m (6ft. 6in.)</div>
+                    <div>Armor Thickness:</div>
+                    <div>8mm-25mm</div>
+                    <div>Load Capacity:</div>
+                    <div>1.1 Metric Tons (>2,500 lbs)</div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
         <div class="fixed-header" data-section="helmet">Section 2 head</div>
-        <div class="fixed-header" data-section="arm_left"></div>
-        <div class="fixed-header" data-section="arm_right"></div>
+        <div class="fixed-header" data-section="arm_left">section 3</div>
+        <div class="fixed-header" data-section="arm_right">sectionn4</div>
         <div class="fixed-header" data-section="leg_left">Section 5 left leg</div>
         <div class="fixed-header" data-section="leg_right">Section 6 right leg</div>
         <div class="fixed-header" data-section="torso">Section 7 torso</div>
-        <div class="fixed-header" data-section="theEnd">Section 8 back to all parts</div>
       </div>
 
 
@@ -62,8 +123,9 @@
         <div id="leftleg" class="parts" data-section="leg_left"></div>
         <div id="rightleg" class="parts" data-section="leg_right"></div>
         <div id="torso" class="parts" data-section="torso"></div>
-        <div id="theEnd" class="parts" data-section="theEnd"></div> 
       </div>
+
+      <div id="theEnd" class="h-[150vh]"></div> 
       
     </div>
     <script type="module" src="/src/main.js"></script>
