@@ -167,7 +167,7 @@
 
           <!--rightpart-->
           <div class="flex-1 w-full h-full p-5 xl:p-10 flex justify-center items-center lg:justify-end ">
-            <div class=" flex flex-col gap-2 max-w-sm w-full lg:w-xs xl:max-w-lg">
+            <div class=" flex flex-col gap-2 max-w-sm w-full lg:max-w-xs xl:max-w-md">
               <div>
                 <h1 class="text-xs font-medium md:text-lg">  Movement Mechanism: </h1>
                 <p class="font-thin text-xs md:text-sm xl:text-base">A low-pressure, single-loop hydraulic system powered by the central Arc Reactor. The motion is powerful but slow and deliberate.</p>
@@ -188,90 +188,80 @@
           </div>
         </div>
 
-        <div class="fixed-header" data-section="arm_right">
-          <img src="src/assets/rightarm.png" alt="" class="h-110 absolute right-15 bottom-0 z-0">
-          <div class="h-full w-1/2 flex flex-col justify-between p-10 ">
-            <div class="">
-              <div class="font-nippo font-medium text-xs md:text-sm lg:text-xl xl:text-2xl">
-                <h1>Component:  Mark I Right Arm Assembly</h1>
+        <div class="fixed-header max-lg:backdrop-blur-3xl" data-section="arm_right">
+          <!--left part-->
+          <div class="flex-1 w-full h-full p-5 lg:p-6 flex flex-col ">
+            <div class=" flex-0 font-medium text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl ">
+              <h1>Component: Mark I Right Arm Assembly</h1>
+            </div>
+            <div class=" flex-1 flex justify-center items-center lg:justify-start lg:p-5">
+              <div class=" flex flex-col sm:gap-5 max-w-sm w-full lg:max-w-xs xl:max-w-lg ">
+                <div>
+                  <h1 class="text-xs font-medium md:text-lg"> Weapons: </h1>
+                  <p class="font-thin text-xs md:text-sm xl:text-base"> Mk1-FT "Dragon's Breath" System. This provided the suit with a dual-wielding incendiary capability.</p>
+                </div>
+                <div>
+                  <h1 class="text-xs font-medium md:text-lg">Pre-pressurized Canister:</h1>
+                  <p class="font-thin  text-xs md:text-sm xl:text-base">The canister is filled with both the fuel (Gelatinized Petroleum Compound), and a compressed, Nitrogen gas. This gas acts as a propellant, creating a constant internal pressure that forcefully expels the fuel as soon as the valve is opened.</p>
+                </div>
+                <div>
+                  <h1 class="text-xs font-medium md:text-lg">Fuel Line:</h1>
+                  <p class="font-thin  text-xs md:text-sm xl:text-base"> The schematic (highlighted in orange) shows the path of the reinforced, high-pressure fuel line. It runs from </p>
+                </div>
+                <div>
+                  <h1 class="text-xs font-medium md:text-lg">Nozzle Assembly (Internal):</h1>
+                  <p class="text-xs font-thin text-wrap md:text-sm xl:text-base"><b>-Solenoid Valve:</b>Triggesr the weapon from inside the suit, an electrical signal opens this valve, releasing the fuel.</p>
+                  <p class="text-xs font-thin text-wrap md:text-sm xl:text-base"><b>-Atomizer Nozzle:</b>This component breaks the viscous fuel into a fine, combustible spray.</p>
+                  <p class="text-xs font-thin text-wrap md:text-sm xl:text-base"><b>-Igniter:</b>It fires at the exact same moment the valve opens, creating a high-voltage spark that ignites the atomized fuel as it exits the arm, creating a controlled jet of fire.</p>
+                </div>
               </div>
             </div>
-            <div class="flex justify-center items-center h-full w-xl p-10 ">
-              <div class=" w-full flex flex-col gap-5">
-
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Weapons: </h1>
-                  <p class="font-thin text-stone-700 text-sm">  Mk1-FT "Dragon's Breath" System. This provided the suit with a dual-wielding incendiary capability..</p>
-                </div>
-
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Pre-pressurized Canister: </h1>
-                  <p class="font-thin text-stone-700 text-sm">The canister is filled with both the fuel (Contains Gelatinized Petroleum Compound [a napalm variant]. It's a viscous, sticky fuel designed to adhere to surfaces and maximize burn time), and a compressed, inert gas (like Nitrogen). This gas acts as a propellant, creating a constant internal pressure that forcefully expels the fuel as soon as the valve is opened.</p>
-                </div>
-
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Fuel Line:</h1>
-                  <p class="font-thin text-stone-700 text-sm"> The schematic (highlighted in orange) shows the path of the reinforced, high-pressure fuel line. It runs from the base of the canister, routing into the armored gauntlet.</p>
-                </div>
-
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Nozzle Assembly (Internal):</h1>
-                    <p class="text-sm font-thin"><b>-Solenoid Valve:</b>Triggesr the weapon from inside the suit, an electrical signal opens this valve, releasing the fuel.</p>
-                  <div class="">
-                    <p class="text-sm font-thin"><b>-Atomizer Nozzle:</b>This component breaks the viscous fuel into a fine, combustible spray.</p>
-                  </div>
-                    <p class="text-sm font-thin"><b>-Igniter:</b>It fires at the exact same moment the valve opens, creating a high-voltage spark that ignites the atomized fuel as it exits the arm, creating a controlled jet of fire.</p>
-                </div>
-
-              </div>
-            </div>
+           
           </div>
-          <div class="h-full w-1/2 flex justify-end ">
-            <div class="flex  border-red-500 w-3xs md:w-xs lg:w-md xl:w-2xl p-8 py-20">
-              
+
+          <!--rightpart-->
+          <div class="flex-0 sm:flex-1 w-full h-full flex justify-center items-center lg:justify-end ">
+            <div class=" flex-1 flex justify-center sm:items-end items-center h-full w-full  ">
+              <img src="src/assets/rightarm.png" alt="" class="h-60 sm:h-100 ">
             </div>
           </div>
         </div>
 
-        <div class="fixed-header" data-section="leg_left">
-          <img src="src/assets/leftleg.png" alt="" class="h-110 absolute right-20 bottom-20 z-0">
-          <div class="h-full w-1/2 flex flex-col justify-between p-10 ">
-            <div class="">
-              <div class="font-nippo font-medium text-xs md:text-sm lg:text-xl xl:text-2xl">
-                <h1>Component:  Mark I Left Leg Assembly</h1>
-              </div>
-            </div>
-            <div class="flex justify-center items-center h-full w-xl p-10 ">
-              <div class=" w-full flex flex-col gap-5">
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Movement Mechanism:</h1>
-                  <p class="font-thin text-stone-700 text-sm">A hydraulic powered knee join primary drive cog</p>
-                </div>
-
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Principle of Operation: High-Torque Chain Drive </h1>
-                  <p class="font-thin text-stone-700 text-sm">-Inside the upper leg (the thigh portion), there is a massive, slow-moving hydraulic piston.</p>
-                  <p class="font-thin text-stone-700 text-sm">-Connected to this piston is a heavy-duty, reinforced drive chain.</p>
-                  <p class="font-thin text-stone-700 text-sm">-This chain wraps around the "wheel" the drive cog which is the pivot point for the knee.</p>
-                  <p class="font-thin text-stone-700 text-sm">-When the Knee is bent, the hydraulic piston retracts, pulling the chain, which in turn rotates the cog, bending the lower leg upwards. To straighten the leg, the piston extends, pushing the chain and rotating the cog in the opposite direction.</p>
-                </div>
-
-                <div>
-                  <h1 class="text-sm font-medium lg:text-xl"> Aft Calf Junction Box (ACJ-B): </h1>
-                  <p class="font-thin text-stone-700 text-sm"><b>Primary Function:</b> A Junction Box. The main electrical and hydraulic "outlet" for the lower leg.</p>
-                  <p class="font-thin text-stone-700 text-sm"><b>Secondary  Function:</b> The Manual Bypass. If the ankle or knee actuator were to seize under pressure, The lever is a manual override. By reaching back and tripping it, it will dump the hydraulic pressure from that specific line, allowing the joint to go limp. </p>
-                </div>
-
-              
-              </div>
-            </div>
-          </div>
-          <div class="h-full w-1/2 flex justify-end ">
-            <div class="flex  border-red-500 w-3xs md:w-xs lg:w-md xl:w-2xl p-8 py-20">
-              
-            </div>
-          </div>
-        </div>
+        <div class="fixed-header max-lg:backdrop-blur-3xl" data-section="leg_left">
+          <!--left part-->
+         <div class="flex-1 w-full h-full p-5 lg:p-6 flex flex-col ">
+           <div class=" flex-0 font-medium text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl ">
+             <h1>Component: Mark I Left Leg Assembly</h1>
+           </div>
+           <div class=" flex-1 flex justify-center items-center lg:justify-start lg:p-5">
+             <div class=" flex flex-col sm:gap-5 max-w-sm w-full lg:max-w-xs xl:max-w-lg ">
+               <div>
+                 <h1 class="text-xs font-medium md:text-lg">Movement Mechanism: </h1>
+                 <p class="font-thin text-xs md:text-sm xl:text-base">A hydraulic powered knee join primary drive cog.</p>
+               </div>
+               <div>
+                 <h1 class="text-xs font-medium md:text-lg">Principle of Operation: High-Torque Chain Drive </h1>
+                 <p class="text-xs font-thin text-wrap md:text-sm xl:text-base">-Inside the upper leg (the thigh portion), there is a massive, slow-moving hydraulic piston.</p>
+                 <p class="text-xs font-thin text-wrap md:text-sm xl:text-base">-Connected to this piston is a heavy-duty, reinforced drive chain.</p>
+                 <p class="text-xs font-thin text-wrap md:text-sm xl:text-base">-This chain wraps around the "wheel" the drive cog which is the pivot point for the knee.</p>
+                 <p class="text-xs font-thin text-wrap md:text-sm xl:text-base">-When the Knee is bent, the hydraulic piston retracts, pulling the chain, which in turn rotates the cog, bending the lower leg upwards. To straighten the leg, the piston extends, pushing the chain and rotating the cog in the opposite direction.</p>
+               </div>
+               <div>
+                 <h1 class="text-xs font-medium md:text-lg">Aft Calf Junction Box (ACJ-B):</h1>
+                 <p class="text-xs font-thin text-wrap md:text-sm xl:text-base"><b>Primary Function:</b> A Junction Box. The main electrical and hydraulic "outlet" for the lower leg.</p>
+                 <p class="text-xs font-thin text-wrap md:text-sm xl:text-base"><b>Secondary  Function:</b> The Manual Bypass. If the ankle or knee actuator were to seize under pressure, The lever is a manual override. By reaching back and tripping it, it will dump the hydraulic pressure from that specific line, allowing the joint to go limp.</p>
+               </div>
+               
+             </div>
+           </div>
+         </div>
+         <!--rightpart-->
+         <div class="flex-0 sm:flex-1 w-full h-full flex justify-center items-center">
+           <div class=" flex-1 flex justify-center items-center h-full w-full ">
+             <img src="src/assets/leftleg.png" alt="" class="h-60 sm:h-100">
+           </div>
+         </div>
+       </div>
 
         <div class="fixed-header" data-section="leg_right">
           <img src="src/assets/rightLeg.png" alt="" class="h-1/2 absolute left-20 bottom-0 z-0">
