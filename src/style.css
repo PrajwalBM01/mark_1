@@ -68,21 +68,28 @@
 }
 
 .fixed-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: black;
-    opacity: 0;
-    /* border: 5px solid black; */
-    transition: opacity 0.2s ease;
-    pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  opacity: 0;
+  /* border: 5px solid black; */
+  z-index: 5;
+  transition: opacity 0.2s ease;
+  pointer-events: auto;
+}
+
+@media (width >=  640px ){
+.fixed-header{ flex-direction: row; }
 }
 
 .fixed-header.active {
