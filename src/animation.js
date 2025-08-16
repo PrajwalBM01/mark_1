@@ -85,38 +85,30 @@ export function setupAnimation(){
       }},
     )
 
-    let briefSplit = SplitText.create('#mark1',{type:'words',wordsClass:'brief-word'})
-
     ScrollTrigger.create({
       trigger:'#studio1',
       start:"top top",
       end:'center top',
-      // markers:'true',
-      // onEnter:{
-
-      // }
       onToggle:(self)=>{
         const brief = document.getElementById('studio1').firstElementChild
         if(self.isActive){
-          brief.style.display = 'flex';
-          gsap.to(briefSplit.words,{
+          gsap.to(brief,{
+            display:'flex',
             opacity:1,
-            duration:1,
-            stagger:0.05,
-            translateY:0
+            ease:'power1'
           })
         }else{
-          brief.style.display = 'none'
-          gsap.to(briefSplit.words,{
+          gsap.to(brief,{
+            display:'none',
             opacity:0,
-            translateY:100
+            ease:'power1'
           })
         }
       }
     })
 
   
-    //mute words animation
+    //R&D words animation
     const headingTl = gsap.timeline({
       scrollTrigger:{
         trigger:'#sns',
@@ -298,38 +290,12 @@ export function setupAnimation(){
     
     }
 
-    //the whole timline thing
-  //   Draggable.create("#progressPointer",{
-  //     type:'y',
-  //     bounds: document.getElementById('navbar'),
-  //     // inertia:true,
-  //     onDrag:function(){
-  //       // this.curre
-  //       const boundsRect = document.getElementById('navbar').getBoundingClientRect();
-  //       const pointerRect = this.target.getBoundingClientRect()
-  //       console.log(boundsRect,pointerRect)
-  //       const maxY = boundsRect.height - pointerRect.height;
-  //       console.log(maxY)
-  //       const y = Math.max(0, Math.min(this.y, maxY));
-  //       const ratio = maxY > 0 ? y / maxY : 0;
-  //       const maxScroll =
-  // document.documentElement.scrollHeight - window.innerHeight;
-  // const scrollY = ratio * Math.max(0, maxScroll);
-  //       console.log(this.y)
-  //       gsap.to(document.getElementById('navbar'),{
-  //         scrollTo:{
-  //           y:scrollY
-  //         }
-  //       })
-  //     }
-  //   });
-
     //progress 
     ScrollTrigger.create({
       trigger:'#wholeTimeline',
       start:'top top',
       end:"bottom top",
-      markers:true,
+      // markers:true,
       onUpdate:(self)=>{
         console.log(self.progress)
         gsap.to(document.getElementById('progressPointer'),{
@@ -511,13 +477,13 @@ export function setupAnimation(){
         enter(leftArm,"arm_left",leftArm_rotation,3,10,'leftArm')
       },
       onLeave:()=>{
-        leave(leftArm,"arm_left",leftArm_rotation,'helmet')
+        leave(leftArm,"arm_left",leftArm_rotation,'leftArm')
       },
       onEnterBack:()=>{
         enter(leftArm,"arm_left",leftArm_rotation,3,10,'leftArm')
       },
       onLeaveBack:()=>{
-        leave(leftArm,"arm_left",leftArm_rotation,'helmet')
+        leave(leftArm,"arm_left",leftArm_rotation,'leftArm')
       }
     })
 
