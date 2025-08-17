@@ -5,10 +5,6 @@
     transform: scaleX(0);
 }
 
-html,body{
-    overflow: hidden;
-}
-
 #engine{
     position: fixed;
     top: 0;
