@@ -5,6 +5,10 @@
     transform: scaleX(0);
 }
 
+body,html,#engine{
+    margin: 0;
+    padding: 0;
+}
 
 @theme {
     --font-nippo : 'Nippo';
