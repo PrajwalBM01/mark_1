@@ -253,7 +253,7 @@ export function setupAnimation(){
       if(detailsToggle){
         button.textContent = 'X'
       }else{
-        button.textContent = 'Detials'
+        button.textContent = 'Details'
       }
       document.querySelectorAll('.fixed-header').forEach(header=>{
         header.classList.remove('active');

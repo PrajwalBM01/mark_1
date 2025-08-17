@@ -126,6 +126,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 //resize
 window.addEventListener('resize',()=>{
   state.extraZ = (window.innerWidth < 640)? 5: 0
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
   renderer.setSize(window.innerWidth,window.innerHeight)
   main_cam.aspect = window.innerWidth/window.innerHeight
   main_cam.updateProjectionMatrix()
