@@ -10,6 +10,10 @@ body,html,#engine{
     padding: 0;
 }
 
+#engine{
+    display: block;
+}
+
 @theme {
     --font-nippo : 'Nippo';
     --color-blueprintGray : #a9a9a9;
