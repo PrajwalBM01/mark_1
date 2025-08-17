@@ -5,6 +5,18 @@
     transform: scaleX(0);
 }
 
+html,body{
+    overflow: hidden;
+}
+
+#engine{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    z-index: -1;
+}
+
 @theme {
     --font-nippo : 'Nippo';
     --color-blueprintGray : #a9a9a9;
