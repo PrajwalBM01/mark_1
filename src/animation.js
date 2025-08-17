@@ -262,8 +262,6 @@ export function setupAnimation(){
       });
 
       if(newHeaderElement){
-        const toggle = document.getElementById('toggle')
-        console.log(toggle)
         newHeaderElement.classList.add('active');
         window.addEventListener
         newHeaderElement.style.pointerEvents = 'auto'
@@ -353,7 +351,6 @@ export function setupAnimation(){
       start:'top top',
       end:"bottom top",
       onUpdate:(self)=>{
-        console.log(self.progress)
         gsap.to(document.getElementById('progressPointer'),{
           translateY: `${(self.progress * 400)}px`
         })
