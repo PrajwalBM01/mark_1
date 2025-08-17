@@ -189,7 +189,7 @@ renderer.render(scene,active_cam)
 //ironman
 const loader = new GLTFLoader(loadingManager);
 loader.load(
-  '/finals/animated.glb', 
+  '/finals/ironman.glb', 
   function (gltf) {
     const ironman = gltf.scene
     state.animation = gltf.animations
@@ -234,7 +234,7 @@ loader.load(
 )
 
 const scene_loader = new GLTFLoader(loadingManager);
-scene_loader.load('background.glb',(gltf)=>{
+scene_loader.load('/finals/background.glb',(gltf)=>{
   const background = gltf.scene;
   background.position.set(0,0,20)
   background.scale.set(10,10,10)

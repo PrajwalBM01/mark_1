@@ -295,7 +295,7 @@ export function setupAnimation(){
       trigger:'#wholeTimeline',
       start:'top top',
       end:"bottom top",
-      // markers:true,
+      markers:true,
       onUpdate:(self)=>{
         console.log(self.progress)
         gsap.to(document.getElementById('progressPointer'),{
