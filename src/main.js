@@ -289,23 +289,23 @@ animate()
 //   }
 // })
 
-const scrollLinks = document.querySelectorAll('a');
+// const scrollLinks = document.querySelectorAll('a');
 
-scrollLinks.forEach(link=>{
- link.addEventListener('click',(e=>{
-  e.preventDefault()
-  const targetElement = link.getAttribute('href');
-  if(targetElement){
-    gsap.to(window, {
-      ease: 'expo.in', 
-      scrollTo: {
-        y: targetElement, 
-        offsetY: -1 
-      }
-    });
-  }
- }))
-})
+// scrollLinks.forEach(link=>{
+//  link.addEventListener('click',(e=>{
+//   e.preventDefault()
+//   const targetElement = link.getAttribute('href');
+//   if(targetElement){
+//     gsap.to(window, {
+//       ease: 'expo.in', 
+//       scrollTo: {
+//         y: targetElement, 
+//         offsetY: -1 
+//       }
+//     });
+//   }
+//  }))
+// })
 
 // window.onbeforeunload = () => {
 //   window.scrollTo(0, 0);

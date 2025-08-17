@@ -71,7 +71,6 @@ export function setupAnimation(){
         start: 'top top',    
         end: 'bottom top', 
         scrub: true,         
-        // markers: true,      
       },
     });
 
@@ -115,7 +114,6 @@ export function setupAnimation(){
         start:'top top',
         end:'center top',
         scrub:true,
-        // markers:true
       }
     })
 
@@ -142,7 +140,6 @@ export function setupAnimation(){
         start: 'top top',
         end:'bottom top',
         scrub:true,
-        // markers:true
       }
     })
 
@@ -175,7 +172,6 @@ export function setupAnimation(){
       z:0.6,
       onUpdate:()=>{
         state.lights.headLight.target.updateMatrixWorld()
-        // state.lights.headlighthelper.update()
       }
     },0)
     .to(state.lights.keyLight.position,{
@@ -189,7 +185,6 @@ export function setupAnimation(){
       z:-2.7,
       onUpdate:()=>{
         state.lights.keyLight.target.updateMatrixWorld()
-        // state.lights.keylightHelper.update()
       }
     },0)
     .to(state.lights.fillLight.position,{
@@ -247,22 +242,44 @@ export function setupAnimation(){
       ease:'easeInOut'
     })
 
-
     let currentActiveHeader = null;
+    let detailsToggle = false;
     const eventFunctions = new Map();
 
 
     const switchHeader = (newHeaderElement,partName)=>{
+      detailsToggle = false
+      const button  = document.getElementById('toggle')
+      if(detailsToggle){
+        button.textContent = 'X'
+      }else{
+        button.textContent = 'Detials'
+      }
       document.querySelectorAll('.fixed-header').forEach(header=>{
         header.classList.remove('active');
+        header.classList.remove('toggle-active');
         header.style.pointerEvents = 'none'
       });
 
       if(newHeaderElement){
+        const toggle = document.getElementById('toggle')
+        console.log(toggle)
         newHeaderElement.classList.add('active');
+        window.addEventListener
         newHeaderElement.style.pointerEvents = 'auto'
+        
+        // On screens ≤1024px, only show header when toggle is active
+        if (window.innerWidth <= 1024) {
+          if (detailsToggle) {
+            newHeaderElement.classList.add('toggle-active');
+            newHeaderElement.style.pointerEvents = 'auto';
+          }
+        } else {
+          // Normal behavior for screens >1024px
+          newHeaderElement.style.pointerEvents = 'auto'
+        }
+        
         currentActiveHeader = newHeaderElement
-
       }
 
       if(partName){
@@ -289,13 +306,52 @@ export function setupAnimation(){
       }
     
     }
+  const toggleButton = document.getElementById('toggle');
+  if (toggleButton) {
+    toggleButton.addEventListener('click', () => {
+      detailsToggle = !detailsToggle;
+      
+      if (detailsToggle) {
+        toggleButton.textContent = 'X';
+        if (currentActiveHeader) {
+          currentActiveHeader.classList.add('toggle-active');
+          currentActiveHeader.style.pointerEvents = 'auto';
+        }
+      } else {
+        toggleButton.textContent = 'Details';
+          currentActiveHeader.classList.remove('toggle-active');
+      }
+    });
+  }
+    
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1024) {
+        detailsToggle = false;
+        if (toggleButton) {
+          toggleButton.textContent = 'Details';
+        }
+        if (currentActiveHeader) {
+          currentActiveHeader.classList.remove('toggle-active');
+          currentActiveHeader.style.pointerEvents = 'auto';
+        }
+      } else {
+        if (currentActiveHeader) {
+          if (detailsToggle) {
+            currentActiveHeader.classList.add('toggle-active');
+            currentActiveHeader.style.pointerEvents = 'auto';
+          } else {
+            currentActiveHeader.classList.remove('toggle-active');
+            currentActiveHeader.style.pointerEvents = 'auto';
+          }
+        }
+      }
+    });
 
     //progress 
     ScrollTrigger.create({
       trigger:'#wholeTimeline',
       start:'top top',
       end:"bottom top",
-      markers:true,
       onUpdate:(self)=>{
         console.log(self.progress)
         gsap.to(document.getElementById('progressPointer'),{
@@ -308,7 +364,6 @@ export function setupAnimation(){
       trigger:'#wholeTimeline',
       start:'top top',
       end:'bottom top',
-      // markers:true,
       onToggle:(self)=>{
         if(self.isActive){
           gsap.to(document.getElementsByClassName('fixed-header-container'),{
@@ -340,7 +395,6 @@ export function setupAnimation(){
       start:'center bottom',
       end:'bottom top',
       animation:modelRotation,
-      // markers:true,
       onEnter:()=>{
         switchHeader(document.querySelector(`.fixed-header[data-section="allParts"]`))
         modelRotation.restart()

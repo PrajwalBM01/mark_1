@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 @import "tailwindcss";
 
 
@@ -9,7 +8,6 @@
 @theme {
     --font-nippo : 'Nippo';
     --color-blueprintGray : #a9a9a9;
-    --color-hud: rgb(0 191 255);
 }
 
   
@@ -32,7 +30,6 @@
     display: none;
     justify-content: center;
     opacity: 0;
-    /* border: 3px solid yellow; */
 }
 
 .fixed-header {
@@ -50,14 +47,38 @@
   font-weight: bold;
   color: black;
   opacity: 0;
-  /* border: 5px solid black; */
   z-index: 5;
   transition: opacity 0.2s ease;
   pointer-events: auto;
 }
 
+
 @media (width >=  640px ){
-.fixed-header{ flex-direction: row; }
+    .fixed-header{ flex-direction: row; }
+   }
+   
+@media (max-width: 1024px) {
+    .fixed-header {
+    opacity: 0 !important;
+    pointer-events: auto;
+    }
+    
+    .fixed-header.active {
+    opacity: 0 !important;
+    pointer-events: auto;
+    }
+    
+    .fixed-header.active.toggle-active {
+    opacity: 1 !important;
+    pointer-events: auto;
+    }
+}
+
+@media (min-width: 1025px) {
+    .fixed-header.active {
+    opacity: 1;
+    }
+    
 }
 
 .fixed-header.active {
@@ -69,16 +90,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
     font-weight: bold;
     color: black;
-    /* border: 5px solid green; */
     position: relative;
 }
 
 
 a[href] {
-    /* border: 2px solid #00BFFF; */
     border-top: 2px solid black ;
     height: 100%;
     width: 100%;
