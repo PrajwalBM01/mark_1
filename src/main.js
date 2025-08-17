@@ -115,7 +115,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas:canvas,
   antialias:true
 })
-renderer.setSize(window.innerWidth,window.innerHeight)
+renderer.setSize(window.visualViewport.width, window.visualViewport.height)
 renderer.render(scene,main_cam)
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -127,7 +127,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 window.addEventListener('resize',()=>{
   state.extraZ = (window.innerWidth < 640)? 5: 0
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
-  renderer.setSize(window.innerWidth,window.innerHeight)
+  renderer.setSize(window.visualViewport.width, window.visualViewport.height)
   main_cam.aspect = window.innerWidth/window.innerHeight
   main_cam.updateProjectionMatrix()
   renderer.render(scene,main_cam)

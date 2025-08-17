@@ -5,14 +5,11 @@
     transform: scaleX(0);
 }
 
-body,html,#engine{
-    margin: 0;
-    padding: 0;
+body,html{
+    background-color: black;
 }
 
-#engine{
-    display: block;
-}
+
 
 @theme {
     --font-nippo : 'Nippo';
