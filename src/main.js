@@ -5,6 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { state } from './state';
 import { setupAnimation } from './animation';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { inject } from "@vercel/analytics"
+
+inject()
 
 //plugins
 gsap.registerPlugin(ScrollTrigger);

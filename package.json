@@ -7,13 +7,13 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
-    
   },
   "devDependencies": {
     "vite": "^7.0.4"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "@vercel/analytics": "^1.5.0",
     "gsap": "^3.13.0",
     "lenis": "^1.3.8",
     "tailwindcss": "^4.1.11",
