@@ -31,6 +31,17 @@
   </head>
   <body class="m-0 p-0 relative font-nippo">
 
+    <!-- Audio consent prompt -->
+    <div id="audioPrompt" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+       <div class="bg-black/60 border border-blueprintGray p-6 sm:p-8 rounded max-w-sm w-[90%] text-center text-white">
+         <p class="text-xs sm:text-sm mb-4">Enable audio for this experience?</p>
+         <div class="flex gap-3 justify-center">
+           <button id="audioYes" class="px-3 py-2 border border-blueprintGray text-blueprintGray hover:bg-blueprintGray hover:text-black transition">Yes</button>
+           <button id="audioNo" class="px-3 py-2 border border-blueprintGray text-blueprintGray hover:bg-blueprintGray hover:text-black transition">No</button>
+         </div>
+       </div>
+    </div>
+
     <!--loader-->
     <div id="loader" class=" relative h-screen flex justify-center items-center bg-black opacity-100 transition-all duration-150">
       <img src="https://dt703ibthl19f.cloudfront.net/loader.webp" alt="Loader" draggable="false" class="object-cover h-full">

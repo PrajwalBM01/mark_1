@@ -13,6 +13,34 @@ inject()
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(ScrollToPlugin);
 
+// audio setup
+const audioUrl = 'https://dt703ibthl19f.cloudfront.net/backinback%20(1).mp3';
+const audio = new Audio(audioUrl);
+
+// The rest of your code is perfect and can stay the same
+audio.loop = true;
+audio.preload = 'auto';
+
+const audioPrompt = document.getElementById('audioPrompt');
+const audioYesBtn = document.getElementById('audioYes');
+const audioNoBtn = document.getElementById('audioNo');
+
+if (audioYesBtn && audioNoBtn && audioPrompt) {
+  audioYesBtn.addEventListener('click', async () => {
+    try {
+      // It's a good practice to handle the promise returned by play()
+      await audio.play();
+    } catch (err) {
+      console.warn('Audio play was blocked by the browser. This usually requires user interaction.', err);
+    }
+    audioPrompt.classList.add('hidden');
+  });
+
+  audioNoBtn.addEventListener('click', () => {
+    audioPrompt.classList.add('hidden');
+  });
+}
+
 
 //loading manager
 const loadingManager = new THREE.LoadingManager();
